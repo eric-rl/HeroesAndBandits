@@ -77,17 +77,4 @@
         app:layout_constraintStart_toStartOf="@+id/register_button_register"
         app:layout_constraintTop_toBottomOf="@+id/register_button_register" />
 
-    <Button
-        android:id="@+id/selectPhoto_button_register"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="32dp"
-        android:text="SELECT PHOTO"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:textSize="16dp"
-        android:background="@drawable/circle_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
