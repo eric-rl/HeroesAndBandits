@@ -15,6 +15,10 @@
 vcs.xml
 
 
+.idea
+.idea/
+/.idea
+/.idea/
 /AndroidApp/local.properties
 /AndroidApp/.idea/caches
 /AndroidApp/.idea/libraries
