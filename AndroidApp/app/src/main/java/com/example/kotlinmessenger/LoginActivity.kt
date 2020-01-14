@@ -18,7 +18,7 @@ class LoginActivity: AppCompatActivity() {
             val email = email_edittext_login.text.toString()
             val password = password_edittext_login.text.toString()
 
-            Log.d("__Login", "Attempt login with email/pw: $email / $password")
+            Log.d("__LoginActivity", "Attempt login with email/pw: $email / $password")
 
         }
 

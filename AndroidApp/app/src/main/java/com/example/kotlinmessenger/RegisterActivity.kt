@@ -1,7 +1,6 @@
 package com.example.kotlinmessenger
 
 import android.content.Intent
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,7 +18,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         already_have_account_text_view.setOnClickListener {
-            Log.d("__MainActivity", "Try to show login activity")
+            Log.d("__RegisterActivity", "Try to show login activity")
 
             // launch the login activity
             val intent = Intent(this, LoginActivity::class.java)
@@ -35,8 +34,8 @@ class RegisterActivity : AppCompatActivity() {
             Toast.makeText(this, "Please enter text in email/pw", Toast.LENGTH_SHORT).show()
         }
 
-        Log.d("__MainActivity", "Email is: $email")
-        Log.d("__MainActivity", "Password: $password")
+        Log.d("__RegisterActivity", "Email is: $email")
+        Log.d("__RegisterActivity", "Password: $password")
     }
 
 }
