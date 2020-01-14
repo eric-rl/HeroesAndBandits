@@ -15,13 +15,14 @@
 vcs.xml
 
 
-AndroidApp/local.properties
-AndroidApp/.idea/caches
-AndroidApp/.idea/libraries
-AndroidApp/.idea/modules.xml
-AndroidApp/.idea/workspace.xml
-AndroidApp/.idea/navEditor.xml
-AndroidApp/.idea/assetWizardSettings.xml
+/AndroidApp/local.properties
+/AndroidApp/.idea/caches
+/AndroidApp/.idea/libraries
+/AndroidApp/.idea/modules.xml
+/AndroidApp/.idea/workspace.xml
+/AndroidApp/.idea/navEditor.xml
+/AndroidApp/.idea/assetWizardSettings.xml
 .DS_Store
-AndroidApp/build
-AndroidApp/captures
+/AndroidApp/build
+/AndroidApp/captures
+*.properties
