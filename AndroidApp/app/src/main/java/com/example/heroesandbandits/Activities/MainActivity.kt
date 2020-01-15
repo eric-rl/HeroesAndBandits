@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.heroesandbandits.Fragments.DetailFragment
 import com.example.heroesandbandits.Fragments.FavoritesFragment
 import com.example.heroesandbandits.Fragments.MessageFragment
 import com.example.heroesandbandits.R
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        openFragment(SearchFragment.newInstance())
+        openFragment(DetailFragment.newInstance())
         Log.d("__", "hej från main")
 
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
