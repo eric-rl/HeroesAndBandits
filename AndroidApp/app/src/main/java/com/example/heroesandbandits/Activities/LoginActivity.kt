@@ -1,8 +1,9 @@
-package com.example.heroesandbandits
+package com.example.heroesandbandits.Activities
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.heroesandbandits.R
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity: AppCompatActivity() {
