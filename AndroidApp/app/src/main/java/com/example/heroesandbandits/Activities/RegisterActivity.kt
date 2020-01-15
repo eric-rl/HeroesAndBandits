@@ -1,12 +1,12 @@
-package com.example.heroesandbandits
+package com.example.heroesandbandits.Activities
 
-import android.app.ActionBar
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.heroesandbandits.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_register.*
 

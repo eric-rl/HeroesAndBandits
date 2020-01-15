@@ -1,4 +1,4 @@
-package com.example.heroesandbandits
+package com.example.heroesandbandits.Fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.heroesandbandits.R
 
 class FavoritesFragment: Fragment() {
 
@@ -19,7 +20,8 @@ class FavoritesFragment: Fragment() {
 
 
     companion object {
-        fun newInstance(): FavoritesFragment = FavoritesFragment()
+        fun newInstance(): FavoritesFragment =
+            FavoritesFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
