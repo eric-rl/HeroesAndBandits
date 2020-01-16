@@ -6,13 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.example.heroesandbandits.Items.HeroItem
-import com.example.heroesandbandits.Models.Hero
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.MarvelRetrofit
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment() {
@@ -29,9 +25,9 @@ class SearchFragment : Fragment() {
 
         v.search_button.setOnClickListener {
         //   Log.d("---", v.search_input.text.toString())
-          //  replaceFragment(SearchResultFragment.newInstance())
+            replaceFragment(SearchResultFragment.newInstance())
 
-            displaySearchResult()
+           // displaySearchResult()
         }
 
         return v

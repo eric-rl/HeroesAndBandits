@@ -1,14 +1,6 @@
 package com.example.heroesandbandits.Activities
 
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.util.Log
-import com.example.heroesandbandits.Items.HeroItem
-import com.example.heroesandbandits.Models.Hero
-import com.example.heroesandbandits.R
-import com.xwray.groupie.GroupAdapter
-import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_main22.*
 
 class MainTestActivity : AppCompatActivity() {
 

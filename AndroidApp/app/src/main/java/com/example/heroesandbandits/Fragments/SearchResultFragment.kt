@@ -6,7 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.heroesandbandits.Items.HeroItem
+import com.example.heroesandbandits.Items.CharacterItem
+import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.Models.Hero
 import com.example.heroesandbandits.R
 import com.xwray.groupie.GroupAdapter
@@ -38,16 +39,16 @@ class SearchResultFragment : Fragment() {
     private fun createRecyclerView(): GroupAdapter<GroupieViewHolder> {
         Log.d("__", "Hej från metoden create recyclerView")
         val adapter = GroupAdapter<GroupieViewHolder>()
-        adapter.add(HeroItem(Hero("kdwadwadawsjdghfksd", 23)))
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("kdwadwadawsjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
         return adapter
 
     }
