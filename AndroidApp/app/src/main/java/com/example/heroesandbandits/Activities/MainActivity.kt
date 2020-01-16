@@ -2,6 +2,7 @@ package com.example.heroesandbandits.Activities
 
 import android.os.Bundle
 import android.util.Log
+import android.util.Log.d
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.heroesandbandits.Fragments.DetailFragment
@@ -9,7 +10,9 @@ import com.example.heroesandbandits.Fragments.FavoritesFragment
 import com.example.heroesandbandits.Fragments.MessageFragment
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Fragments.SearchFragment
+import com.example.heroesandbandits.Fragments.SearchNoResultFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_search.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +26,9 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
+
+
+
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -48,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         }
         false
     }
-
 
 
     private fun openFragment(fragment: Fragment) {
