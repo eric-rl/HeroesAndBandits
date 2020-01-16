@@ -8,38 +8,40 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
+fun String.md5(): String {
+
+    val MD5 = "MD5"
+    try { // Create MD5 Hash
+        val digest = MessageDigest
+            .getInstance(MD5)
+        digest.update(this.toByteArray())
+        val messageDigest = digest.digest()
+
+        // Create Hex String
+        val hexString = StringBuilder()
+        for (aMessageDigest in messageDigest) {
+            var h = Integer.toHexString(0xFF and aMessageDigest.toInt())
+            while (h.length < 2) h = "0$h"
+            hexString.append(h)
+        }
+        return hexString.toString()
+    } catch (e: NoSuchAlgorithmException) {
+        e.printStackTrace()
+    }
+    return ""
+}
+
 object MarvelRetrofit {
 
     private const val LOG = false
     private const val PUBLIC_KEY = "cc729ed7a287cc90f1c795f47a404608"
     private const val PRIVATE_KEY = "4dec623d3655be4869728986d93a94c729f4558e"
-    private const val BASE_URL = "http://gateway.marvel.com/v1/public/"
-    fun getTest(): String{
-        return "I EXIST"
-    }
+    private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
 
-    fun String.md5(): String {
+//    fun getTest(): String{
+//        return BASE_URL
+//    }
 
-        val MD5 = "MD5"
-        try { // Create MD5 Hash
-            val digest = MessageDigest
-                .getInstance(MD5)
-            digest.update(this.toByteArray())
-            val messageDigest = digest.digest()
-
-            // Create Hex String
-            val hexString = StringBuilder()
-            for (aMessageDigest in messageDigest) {
-                var h = Integer.toHexString(0xFF and aMessageDigest.toInt())
-                while (h.length < 2) h = "0$h"
-                hexString.append(h)
-            }
-            return hexString.toString()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        }
-        return ""
-    }
 
     val marvelService: MarvelService = Retrofit.Builder()
         .baseUrl(BASE_URL)

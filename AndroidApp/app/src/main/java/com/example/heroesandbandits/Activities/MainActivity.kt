@@ -31,11 +31,12 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
 
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        testApi()
+//        Log.d("___", "TESTAPI()" + MarvelRetrofit.getTest())
+        testApi();
     }
 
     private fun testApi(){
-        Log.d("___", "TESTAPI()" + MarvelRetrofit.getTest())
+//        Log.d("___", "TESTAPI()" + MarvelRetrofit.getTest())
         MarvelRetrofit.marvelService.getAllCharacters(limit = 1, offset = 1)
 
             .subscribeOn(Schedulers.newThread())
