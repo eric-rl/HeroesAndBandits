@@ -17,11 +17,6 @@ interface MarvelService {
     ): Single<CharacterDataWrapper>
 
     @GET("characters?")
-    fun getAntMan(
-        @Query("nameStartsWith") nameStartsWith: String? = "Ant"
-    ) : Single<CharacterDataWrapper>
-
-    @GET("characters?")
     fun searchForCharacter(
         @Query("nameStartsWith") nameStartsWith: String?
     ) : Single<CharacterDataWrapper>
