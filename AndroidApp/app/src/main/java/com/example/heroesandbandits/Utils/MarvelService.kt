@@ -1,5 +1,6 @@
 package com.example.heroesandbandits.Utils
 
+import com.example.heroesandbandits.Models.CharacterDataWrapper
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
