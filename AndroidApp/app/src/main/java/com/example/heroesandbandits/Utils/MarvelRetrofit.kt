@@ -11,8 +11,8 @@ import java.security.NoSuchAlgorithmException
 object MarvelRetrofit {
 
     private const val LOG = false
-    private const val PUBLIC_KEY = "ed3da575ea342e591fc219b429c3c111"
-    private const val PRIVATE_KEY = "9985cf0115724bc7aacb0cb7c41ba2a172b17111"
+    private const val PUBLIC_KEY = "cc729ed7a287cc90f1c795f47a404608"
+    private const val PRIVATE_KEY = "4dec623d3655be4869728986d93a94c729f4558e"
     private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
 
     fun String.md5(): String {
