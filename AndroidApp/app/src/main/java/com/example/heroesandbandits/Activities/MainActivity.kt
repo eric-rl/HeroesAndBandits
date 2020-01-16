@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         //startActivity(Intent(this, Main22Activity::class.java))
 
-        testApi()
+        //testApi()
     }
 
     private fun testApi() {
