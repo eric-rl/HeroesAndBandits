@@ -27,7 +27,6 @@ class SearchFragment : Fragment() {
 
         v.search_button.setOnClickListener {
             replaceFragment(SearchResultFragment.newInstance())
-            //replaceFragment(SearchNoResultFragment.newInstance())
         }
 
         return v

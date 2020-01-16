@@ -38,7 +38,7 @@ class SearchResultFragment : Fragment() {
     private fun createRecyclerView(): GroupAdapter<GroupieViewHolder> {
         Log.d("__", "Hej från metoden create recyclerView")
         val adapter = GroupAdapter<GroupieViewHolder>()
-        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
+        adapter.add(HeroItem(Hero("kdwadwadawsjdghfksd", 23)))
         adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
         adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
         adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
