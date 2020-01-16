@@ -42,10 +42,19 @@ class SearchFragment : Fragment() {
 
         MarvelRetrofit.marvelService.searchForCharacter(view!!.search_input.text.toString()).subscribeOn(Schedulers.newThread())
             .subscribe { result, err ->
-                if (err?.message != null) Log.d("___", "No AntMan")
+                if (err?.message != null) Log.d("___", "Something went wrong")
 
                 else{
                     Log.d("___", "I got what i searched for ${result}")
+                    if(result.data.results.isNotEmpty()){
+                        Log.d("___", "NOT EMPTY")
+
+                        // Write code to display search results
+                    }
+
+                    else{
+                        replaceFragment(SearchNoResultFragment.newInstance())
+                    }
 
                 }
 
