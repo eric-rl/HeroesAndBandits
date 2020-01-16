@@ -38,10 +38,6 @@ object MarvelRetrofit {
     private const val PRIVATE_KEY = "4dec623d3655be4869728986d93a94c729f4558e"
     private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
 
-//    fun getTest(): String{
-//        return BASE_URL
-//    }
-
 
     val marvelService: MarvelService = Retrofit.Builder()
         .baseUrl(BASE_URL)

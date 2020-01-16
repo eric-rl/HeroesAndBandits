@@ -14,8 +14,11 @@ import com.example.heroesandbandits.Fragments.MessageFragment
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Fragments.SearchFragment
 import com.example.heroesandbandits.Fragments.SearchNoResultFragment
+import com.example.heroesandbandits.Utils.Character
+import com.example.heroesandbandits.Utils.CharacterDataWrapper
 import com.example.heroesandbandits.Utils.MarvelRetrofit
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.gson.JsonObject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -31,33 +34,25 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
 
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-//        Log.d("___", "TESTAPI()" + MarvelRetrofit.getTest())
-        testApi();
+        testApi()
     }
 
-    private fun testApi(){
-//        Log.d("___", "TESTAPI()" + MarvelRetrofit.getTest())
-        MarvelRetrofit.marvelService.getAllCharacters(limit = 1, offset = 1)
-
-            .subscribeOn(Schedulers.newThread())
-
-            .observeOn(AndroidSchedulers.mainThread())
-
+    private fun testApi() {
+        MarvelRetrofit.marvelService.searchForCharacter("End").subscribeOn(Schedulers.newThread())
             .subscribe { result, err ->
+                if (err?.message != null) Log.d("___", "No AntMan")
 
-                if (err?.message != null) Log.d("__", "Error getAllCharacters " + err.message)
-
-                else {
-
-                    Log.d("___", "I got a CharacterDataWrapper $result")
-
-                }
+                else{
+                    Log.d("___", "I got what i searched for ${result}")
 
             }
+
     }
+}
 
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+private val mOnNavigationItemSelectedListener =
+    BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
 
             R.id.navigation_search -> {
@@ -83,11 +78,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun openFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
+private fun openFragment(fragment: Fragment) {
+    val transaction = supportFragmentManager.beginTransaction()
+    transaction.replace(R.id.container, fragment)
+    transaction.addToBackStack(null)
+    transaction.commit()
+}
 
 }
