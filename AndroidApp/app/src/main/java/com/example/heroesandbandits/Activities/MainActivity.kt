@@ -1,6 +1,7 @@
 package com.example.heroesandbandits.Activities
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
@@ -8,7 +9,6 @@ import android.util.Log.d
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.heroesandbandits.Fragments.DetailFragment
 import com.example.heroesandbandits.Fragments.FavoritesFragment
 import com.example.heroesandbandits.Fragments.MessageFragment
 import com.example.heroesandbandits.R
@@ -28,16 +28,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        openFragment(DetailFragment.newInstance())
+        openFragment(SearchFragment.newInstance())
         Log.d("__", "hej från main")
 
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
-
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        testApi()
+
+        //startActivity(Intent(this, Main22Activity::class.java))
+
+        //testApi()
     }
 
     private fun testApi() {
+        Log.d("___","hejhejehejejbe")
         MarvelRetrofit.marvelService.searchForCharacter("End").subscribeOn(Schedulers.newThread())
             .subscribe { result, err ->
                 if (err?.message != null) Log.d("___", "No AntMan")
