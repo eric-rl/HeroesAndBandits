@@ -6,7 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.example.heroesandbandits.Items.HeroItem
+import com.example.heroesandbandits.Models.Hero
 import com.example.heroesandbandits.R
+import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment() {
@@ -19,22 +23,21 @@ class SearchFragment : Fragment() {
     ): View? {
         val v = inflater.inflate(R.layout.fragment_search, container, false)
 
+        replaceFragment(SearchDefaultFragment.newInstance())
+
         v.search_button.setOnClickListener {
-            replaceFragment(SearchNoResultFragment.newInstance())
+            replaceFragment(SearchResultFragment.newInstance())
+            //replaceFragment(SearchNoResultFragment.newInstance())
         }
 
         return v
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = activity!!.supportFragmentManager
-        val fragmentTransation = fragmentManager.beginTransaction()
-        fragmentTransation.replace(R.id.search_container, fragment)
-        fragmentTransation.commit()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val transaction = activity!!.supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.search_container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     companion object {
@@ -47,3 +50,4 @@ class SearchFragment : Fragment() {
         Log.d("__", "hej från search")
     }
 }
+

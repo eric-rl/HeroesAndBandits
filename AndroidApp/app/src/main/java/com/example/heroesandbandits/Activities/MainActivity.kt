@@ -1,11 +1,11 @@
 package com.example.heroesandbandits.Activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Log.d
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.heroesandbandits.Fragments.DetailFragment
 import com.example.heroesandbandits.Fragments.FavoritesFragment
 import com.example.heroesandbandits.Fragments.MessageFragment
 import com.example.heroesandbandits.R
@@ -19,12 +19,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        openFragment(DetailFragment.newInstance())
         Log.d("__", "hej från main")
 
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
-
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        openFragment(SearchFragment.newInstance())
+        //startActivity(Intent(this, Main22Activity::class.java))
+
+
     }
 
 
