@@ -1,4 +1,7 @@
 package com.example.heroesandbandits.ViewModel
 
-class SharedViewModel {
+import androidx.lifecycle.ViewModel
+
+class SharedViewModel: ViewModel() {
+    var searchResults = ArrayList<Any>()
 }
