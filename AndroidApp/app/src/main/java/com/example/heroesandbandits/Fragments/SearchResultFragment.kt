@@ -16,6 +16,7 @@ import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_search_result.view.*
+import java.util.*
 
 class SearchResultFragment : Fragment() {
 
@@ -46,9 +47,9 @@ class SearchResultFragment : Fragment() {
             val adapter = GroupAdapter<GroupieViewHolder>()
 
             for (character in sharedViewModel.searchResults) {
-                d("hejhej", "$character")
+                d("hejhej", character.name)
 
-                adapter.add(HeroItem(Hero("$character", 20)))
+                adapter.add(HeroItem(Hero(character.name, 20)))
             }
         return adapter
 
