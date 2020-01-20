@@ -32,5 +32,5 @@ data class Character(
 
 //    val id: Int, //, optional): The unique ID of the character resource.,
     var name: String, //, optional): The name of the character.,
-    val description: Int //, optional): A short bio or description of the character.,
+    val description: String //, optional): A short bio or description of the character.,
 )
