@@ -32,9 +32,6 @@ class SearchFragment : Fragment() {
         replaceFragment(SearchDefaultFragment.newInstance())
 
         v.search_button.setOnClickListener {
-            //   Log.d("---", v.search_input.text.toString())
-            //  replaceFragment(SearchResultFragment.newInstance())
-
             displaySearchResult()
         }
 
@@ -48,11 +45,17 @@ class SearchFragment : Fragment() {
             .subscribeOn(Schedulers.newThread())
             .subscribe { result, err ->
                 if (err?.message != null) {
-                    Log.d("___", "No AntMan")
+                    Log.d("___", "Something went wrong: ${err.message}")
+                    replaceFragment(SearchNoResultFragment.newInstance())
                 } else {
-                    Log.d("___", "I got what i searched for ${result}")
-                    sharedViewModel.searchResults.addAll(result.data.results)
-                    replaceFragment(SearchResultFragment.newInstance())
+                    if(result.data.results.isEmpty()){
+                        replaceFragment(SearchNoResultFragment.newInstance())
+                    }
+                    else {
+                        sharedViewModel.searchResults.clear()
+                        sharedViewModel.searchResults.addAll(result.data.results)
+                        replaceFragment(SearchResultFragment.newInstance())
+                    }
                 }
             }
     }
