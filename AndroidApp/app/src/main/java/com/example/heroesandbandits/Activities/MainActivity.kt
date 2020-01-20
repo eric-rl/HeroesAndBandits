@@ -14,8 +14,8 @@ import com.example.heroesandbandits.Fragments.MessageFragment
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Fragments.SearchFragment
 import com.example.heroesandbandits.Fragments.SearchNoResultFragment
-import com.example.heroesandbandits.Utils.Character
-import com.example.heroesandbandits.Utils.CharacterDataWrapper
+import com.example.heroesandbandits.Models.Character
+import com.example.heroesandbandits.Models.CharacterDataWrapper
 import com.example.heroesandbandits.Utils.MarvelRetrofit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.JsonObject
