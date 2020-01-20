@@ -36,8 +36,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun displaySearchResult() {
-        Log.d("---", view!!.search_input.text.toString())
-
+        Log.d("___", view!!.search_input.text.toString())
         MarvelRetrofit.marvelService.searchForCharacter(view!!.search_input.text.toString())
             .subscribeOn(Schedulers.newThread())
             .subscribe { result, err ->

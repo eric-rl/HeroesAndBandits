@@ -1,5 +1,6 @@
 package com.example.heroesandbandits.Utils
 
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

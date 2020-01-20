@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Items.CharacterItem
-import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.R
+import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -54,8 +54,8 @@ class SearchResultFragment : Fragment() {
         Log.d("__", "Hej från metoden create recyclerView")
         val adapter = GroupAdapter<GroupieViewHolder>()
 
-        for (char in sharedViewModel.searchResults) {
-            adapter.add(CharacterItem(Character(char.name, char.description)))
+        for(char in sharedViewModel.searchResults){
+            adapter.add(CharacterItem(Character(char.name, char.description, char.id, char.thumbnail)))
         }
 
         adapter.setOnItemClickListener { item, view ->
