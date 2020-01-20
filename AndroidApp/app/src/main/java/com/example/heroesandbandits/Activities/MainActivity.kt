@@ -29,35 +29,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         openFragment(SearchFragment.newInstance())
-        Log.d("__", "hej från main")
-
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        //startActivity(Intent(this, Main22Activity::class.java))
-
-        //testApi()
     }
-
-    private fun testApi() {
-        Log.d("___","hejhejehejejbe")
-        MarvelRetrofit.marvelService.searchForCharacter("End").subscribeOn(Schedulers.newThread())
-            .subscribe { result, err ->
-                if (err?.message != null) Log.d("___", "No AntMan")
-
-                else{
-                    Log.d("___", "I got what i searched for ${result}")
-
-            }
-
-    }
-}
 
 
 private val mOnNavigationItemSelectedListener =
     BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-
             R.id.navigation_search -> {
                 val searchFragment =
                     SearchFragment.newInstance()

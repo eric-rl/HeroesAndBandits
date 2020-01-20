@@ -7,9 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
-import com.example.heroesandbandits.Items.HeroItem
-import com.example.heroesandbandits.Models.Hero
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.MarvelRetrofit
 import com.example.heroesandbandits.ViewModel.SharedViewModel
@@ -26,15 +23,13 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        sharedViewModel = activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
+        sharedViewModel =
+            activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val v = inflater.inflate(R.layout.fragment_search, container, false)
         replaceFragment(SearchDefaultFragment.newInstance())
 
         v.search_button.setOnClickListener {
-            //   Log.d("---", v.search_input.text.toString())
-            //  replaceFragment(SearchResultFragment.newInstance())
-
-           // displaySearchResult()
+            displaySearchResult()
         }
 
         return v
@@ -47,11 +42,18 @@ class SearchFragment : Fragment() {
             .subscribeOn(Schedulers.newThread())
             .subscribe { result, err ->
                 if (err?.message != null) {
-                    Log.d("___", "No AntMan")
+                    Log.d("___", "Something went wrong: ${err.message}")
+                    replaceFragment(SearchNoResultFragment.newInstance())
                 } else {
-                    Log.d("___", "I got what i searched for ${result}")
-                    sharedViewModel.searchResults.addAll(result.data.results)
-                    replaceFragment(SearchResultFragment.newInstance())
+                    if(result.data.results.isEmpty()){
+                        replaceFragment(SearchNoResultFragment.newInstance())
+                    }
+                    else {
+                        sharedViewModel.searchResults.clear()
+                        sharedViewModel.searchResults.addAll(result.data.results)
+                        replaceFragment(SearchResultFragment.newInstance())
+                    }
+
                 }
             }
     }
