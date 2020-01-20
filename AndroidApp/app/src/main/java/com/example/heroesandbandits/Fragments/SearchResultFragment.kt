@@ -25,12 +25,16 @@ class SearchResultFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        sharedViewModel = activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
+        sharedViewModel =
+            activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         Log.d("__", "Hej från onCreateView resultfragment")
         Log.d("____", "${sharedViewModel.searchResults}")
         val view = inflater.inflate(R.layout.fragment_search_result, container, false)
         val adapter = createRecyclerView()
+
         view.recyclerViewTest.adapter = adapter
+
+
         return view
     }
 
@@ -39,14 +43,27 @@ class SearchResultFragment : Fragment() {
             SearchResultFragment()
     }
 
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = activity!!.supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.search_container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
     private fun createRecyclerView(): GroupAdapter<GroupieViewHolder> {
         Log.d("__", "Hej från metoden create recyclerView")
         val adapter = GroupAdapter<GroupieViewHolder>()
 
-        for(char in sharedViewModel.searchResults){
+        for (char in sharedViewModel.searchResults) {
             adapter.add(CharacterItem(Character(char.name, char.description)))
         }
 
+        adapter.setOnItemClickListener { item, view ->
+            val char = item as CharacterItem
+            sharedViewModel.clickedItem = char.character
+            replaceFragment(DetailFragment.newInstance())
+            Log.d("hejhej", char.character.name)
+        }
         return adapter
 
     }

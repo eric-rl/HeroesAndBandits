@@ -8,7 +8,7 @@ import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_search_character.view.*
 
-class CharacterItem(private val character: Character) : Item<GroupieViewHolder>() {
+class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
         Log.d("__", "hej från heroItemClass")
         return R.layout.fragment_search_character
