@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Items.CharacterItem
-import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.R
+import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
