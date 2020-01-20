@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Items.HeroItem
+import com.example.heroesandbandits.Items.CharacterItem
+import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.Models.Hero
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.Character
@@ -43,14 +45,18 @@ class SearchResultFragment : Fragment() {
     }
 
     private fun createRecyclerView(): GroupAdapter<GroupieViewHolder> {
-            d("__", "Hej från metoden create recyclerView")
-            val adapter = GroupAdapter<GroupieViewHolder>()
-
-            for (character in sharedViewModel.searchResults) {
-                d("hejhej", character.name)
-
-                adapter.add(HeroItem(Hero(character.name, 20)))
-            }
+        Log.d("__", "Hej från metoden create recyclerView")
+        val adapter = GroupAdapter<GroupieViewHolder>()
+        adapter.add(CharacterItem(Character("kdwadwadawsjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
+        adapter.add(CharacterItem(Character("ksjdghfksd", 23)))
         return adapter
 
     }

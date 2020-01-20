@@ -1,4 +1,4 @@
-package com.example.heroesandbandits.Utils
+package com.example.heroesandbandits.Models
 
 data class CharacterDataWrapper(    // val copyright: String, // optional): The copyright notice for the returned result.,
     // val attributionText: String, // optional): The attribution notice for this result. Please display either this notice or the contents of the attributionHTML field on all screens which contain data from the Marvel Comics API.,
@@ -30,7 +30,7 @@ data class Character(
     val events: EventList, //, optional): A resource list of events in which this character appears.,
     val series: SeriesList, //, optional): A resource list of series in which this character appears.*/
 
-    val id: Int, //, optional): The unique ID of the character resource.,
-    val name: String, //, optional): The name of the character.,
-    val description: String //, optional): A short bio or description of the character.,
+//    val id: Int, //, optional): The unique ID of the character resource.,
+    var name: String, //, optional): The name of the character.,
+    val description: Int //, optional): A short bio or description of the character.,
 )

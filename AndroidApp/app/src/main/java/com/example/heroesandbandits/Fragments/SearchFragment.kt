@@ -14,7 +14,6 @@ import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.MarvelRetrofit
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 
 class SearchFragment : Fragment() {
@@ -35,7 +34,7 @@ class SearchFragment : Fragment() {
             //   Log.d("---", v.search_input.text.toString())
             //  replaceFragment(SearchResultFragment.newInstance())
 
-            displaySearchResult()
+           // displaySearchResult()
         }
 
         return v
@@ -50,9 +49,22 @@ class SearchFragment : Fragment() {
                 if (err?.message != null) {
                     Log.d("___", "No AntMan")
                 } else {
+                if (err?.message != null) Log.d("___", "Something went wrong")
+
+                else{
                     Log.d("___", "I got what i searched for ${result}")
                     sharedViewModel.searchResults.addAll(result.data.results)
                     replaceFragment(SearchResultFragment.newInstance())
+                    if(result.data.results.isNotEmpty()){
+                        Log.d("___", "NOT EMPTY")
+
+                        // Write code to display search results
+                    }
+
+                    else{
+                        replaceFragment(SearchNoResultFragment.newInstance())
+                    }
+
                 }
             }
     }
