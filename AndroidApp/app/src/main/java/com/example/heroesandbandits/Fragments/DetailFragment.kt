@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.ViewModel.SharedViewModel
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.*
+import kotlinx.android.synthetic.main.fragment_search_character.view.*
 
 class DetailFragment : Fragment() {
 
@@ -40,7 +42,13 @@ class DetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        var path = sharedViewModel.clickedItem?.thumbnail?.path
+        path = path?.substring(0, 4) + "s" + path?.substring(4, path.length)
+        val imageUrl = path + "/standard_medium." + sharedViewModel.clickedItem?.thumbnail?.extension
+
+        Picasso.get().load(imageUrl)
+            .error(R.drawable.cat)
+            .into(details_image)
         details_name.text = sharedViewModel.clickedItem?.name
-        sharedViewModel.clickedItem?.
     }
 }
