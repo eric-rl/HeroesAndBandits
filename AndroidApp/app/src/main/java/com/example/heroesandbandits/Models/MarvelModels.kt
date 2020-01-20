@@ -34,3 +34,16 @@ data class Character(
     var name: String, //, optional): The name of the character.,
     val description: String //, optional): A short bio or description of the character.,
 )
+
+data class SeriesDataWrapper(
+    val code: Int,
+    val data: SeriesDataContainer
+)
+
+data class SeriesDataContainer(
+    val results: Array<Series>
+)
+
+data class Series(
+    val title: String
+)

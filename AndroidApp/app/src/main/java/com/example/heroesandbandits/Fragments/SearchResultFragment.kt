@@ -26,8 +26,6 @@ class SearchResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         sharedViewModel = activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
-        Log.d("__", "Hej från onCreateView resultfragment")
-        Log.d("____", "${sharedViewModel.searchResults}")
         val view = inflater.inflate(R.layout.fragment_search_result, container, false)
         val adapter = createRecyclerView()
         view.recyclerViewTest.adapter = adapter

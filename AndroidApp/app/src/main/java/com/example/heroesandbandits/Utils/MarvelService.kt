@@ -1,6 +1,7 @@
 package com.example.heroesandbandits.Utils
 
 import com.example.heroesandbandits.Models.CharacterDataWrapper
+import com.example.heroesandbandits.Models.SeriesDataWrapper
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -21,4 +22,8 @@ interface MarvelService {
         @Query("nameStartsWith") nameStartsWith: String?
     ) : Single<CharacterDataWrapper>
 
+    @GET("series?")
+    fun searchForSeries(
+        @Query("titleStartsWith") titleStartsWith: String?
+    ) : Single<SeriesDataWrapper>
 }
