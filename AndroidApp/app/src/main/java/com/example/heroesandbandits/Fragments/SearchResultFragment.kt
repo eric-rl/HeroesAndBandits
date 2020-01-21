@@ -38,7 +38,6 @@ class SearchResultFragment : Fragment() {
     }
 
     private fun createRecyclerView(): GroupAdapter<GroupieViewHolder> {
-        Log.d("__", "Hej från metoden create recyclerView")
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         for(char in sharedViewModel.searchResults){

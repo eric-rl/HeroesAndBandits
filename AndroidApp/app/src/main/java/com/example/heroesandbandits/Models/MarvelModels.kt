@@ -45,5 +45,8 @@ data class SeriesDataContainer(
 )
 
 data class Series(
-    val title: String
+    val id: Int,
+    val title: String,
+    val description: String,
+    val thumbnail: ImageModel
 )
