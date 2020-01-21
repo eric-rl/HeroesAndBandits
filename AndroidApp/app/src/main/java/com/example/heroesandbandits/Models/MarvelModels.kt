@@ -1,5 +1,7 @@
 package com.example.heroesandbandits.Models
 
+import android.media.Image
+
 data class CharacterDataWrapper(    // val copyright: String, // optional): The copyright notice for the returned result.,
     // val attributionText: String, // optional): The attribution notice for this result. Please display either this notice or the contents of the attributionHTML field on all screens which contain data from the Marvel Comics API.,
     // val attributionHTML: String, // optional): An HTML representation of the attribution notice for this result. Please display either this notice or the contents of the attributionText field on all screens which contain data from the Marvel Comics API.,
@@ -24,15 +26,20 @@ data class Character(
     /*val modified: Date, //, optional): The date the resource was most recently modified.,
     val resourceURI: string, //, optional): The canonical URL identifier for this resource.,
     val urls: Array, //[Url], optional): A set of public web site URLs for the resource.,
-    val thumbnail: Image, //, optional): The representative image for this character.,
     val comics: ComicList, //, optional): A resource list containing comics which feature this character.,
     val stories: StoryList, //, optional): A resource list of stories in which this character appears.,
     val events: EventList, //, optional): A resource list of events in which this character appears.,
     val series: SeriesList, //, optional): A resource list of series in which this character appears.*/
 
-//    val id: Int, //, optional): The unique ID of the character resource.,
-    var name: String, //, optional): The name of the character.,
-    val description: String //, optional): A short bio or description of the character.,
+    var name: String, //, optional): The name of the character.
+    val description: String, //, optional): A short bio or description of the character.
+    val id: Int, //, optional): The unique ID of the character resource.,
+    val thumbnail: ImageModel //, optional): The representative image for this character.,
+)
+
+data class ImageModel(
+    var path: String,
+    var extension: String
 )
 
 data class SeriesDataWrapper(

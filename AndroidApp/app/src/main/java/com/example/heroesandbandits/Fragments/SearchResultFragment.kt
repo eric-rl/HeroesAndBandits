@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Items.CharacterItem
-import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.R
+import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -28,7 +28,10 @@ class SearchResultFragment : Fragment() {
         sharedViewModel = activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val view = inflater.inflate(R.layout.fragment_search_result, container, false)
         val adapter = createRecyclerView()
+
         view.recyclerViewTest.adapter = adapter
+
+
         return view
     }
 
@@ -37,13 +40,26 @@ class SearchResultFragment : Fragment() {
             SearchResultFragment()
     }
 
+    private fun replaceFragment(fragment: Fragment) {
+        val transaction = activity!!.supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.search_container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
     private fun createRecyclerView(): GroupAdapter<GroupieViewHolder> {
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         for(char in sharedViewModel.searchResults){
-            adapter.add(CharacterItem(Character(char.name, char.description)))
+            adapter.add(CharacterItem(Character(char.name, char.description, char.id, char.thumbnail)))
         }
 
+        adapter.setOnItemClickListener { item, view ->
+            val char = item as CharacterItem
+            sharedViewModel.clickedItem = char.character
+            replaceFragment(DetailFragment.newInstance())
+            Log.d("hejhej", char.character.name)
+        }
         return adapter
 
     }
