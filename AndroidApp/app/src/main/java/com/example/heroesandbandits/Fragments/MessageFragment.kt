@@ -27,7 +27,7 @@ class MessageFragment : Fragment() {
     ): View? {
         sharedViewModel = activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val v = inflater.inflate(R.layout.fragment_message, container, false)
-        d("blablabla", "${sharedViewModel.searchResults}")
+        d("blablabla", "${sharedViewModel.searchResultsCharacter}")
         return v
     }
 

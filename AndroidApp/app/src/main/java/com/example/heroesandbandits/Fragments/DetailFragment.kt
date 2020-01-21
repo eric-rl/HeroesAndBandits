@@ -42,6 +42,7 @@ class DetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         var path = sharedViewModel.clickedItem?.thumbnail?.path
         path = path?.substring(0, 4) + "s" + path?.substring(4, path.length)
         val imageUrl = path + "/standard_medium." + sharedViewModel.clickedItem?.thumbnail?.extension

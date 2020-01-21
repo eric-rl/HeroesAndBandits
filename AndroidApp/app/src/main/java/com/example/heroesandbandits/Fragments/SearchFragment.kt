@@ -64,8 +64,8 @@ class SearchFragment : Fragment() {
                                 replaceFragment(SearchNoResultFragment.newInstance())
                             } else {
                                 Log.d("'''", "$result")
-                                sharedViewModel.searchResults.clear()
-                                sharedViewModel.searchResults.addAll(result.data.results)
+                                sharedViewModel.searchResultsCharacter.clear()
+                                sharedViewModel.searchResultsCharacter.addAll(result.data.results)
                                 replaceFragment(SearchResultFragment.newInstance())
                             }
 
@@ -84,7 +84,9 @@ class SearchFragment : Fragment() {
                                 replaceFragment(SearchNoResultFragment.newInstance())
                             } else {
                                 Log.d("'''", "$result")
-                                replaceFragment(SearchResultFragment.newInstance())
+                                sharedViewModel.searchResultsSeries.clear()
+                                sharedViewModel.searchResultsSeries.addAll(result.data.results)
+                                replaceFragment(SeriesSearchResultFragment.newInstance())
                             }
 
                         }
