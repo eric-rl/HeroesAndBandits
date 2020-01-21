@@ -32,14 +32,50 @@
         app:layout_constraintStart_toEndOf="@+id/search_input"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="206dp"
+        android:layout_height="29dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/search_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.078"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_input"
+        app:layout_constraintVertical_bias="0.45">
+
+        <RadioButton
+            android:id="@+id/heroesRadio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="Heroes" />
+
+
+        <RadioButton
+            android:id="@+id/seriesRadio"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="Series" />
+
+
+    </RadioGroup>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/search_container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="412dp"
+        android:layout_height="578dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_input">
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/search_input"
+        app:layout_constraintVertical_bias="1.0">
 
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

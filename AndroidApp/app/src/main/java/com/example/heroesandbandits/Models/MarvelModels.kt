@@ -41,3 +41,19 @@ data class ImageModel(
     var path: String,
     var extension: String
 )
+
+data class SeriesDataWrapper(
+    val code: Int,
+    val data: SeriesDataContainer
+)
+
+data class SeriesDataContainer(
+    val results: Array<Series>
+)
+
+data class Series(
+    val id: Int,
+    val title: String,
+    val description: String?,
+    val thumbnail: ImageModel
+)
