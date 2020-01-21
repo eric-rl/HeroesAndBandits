@@ -25,7 +25,6 @@ object MarvelRetrofit {
     private const val PRIVATE_KEY = "4dec623d3655be4869728986d93a94c729f4558e"
     private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
 
-
     val marvelService: MarvelService = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -33,6 +32,17 @@ object MarvelRetrofit {
         .client(getOkHttpClient())
         .build()
         .create(MarvelService::class.java)
+
+    private fun hasNetwork(context: Context): Boolean? {
+        var isConnected: Boolean? = false // Initial Value
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+        if (activeNetwork != null && activeNetwork.isConnected) {
+            isConnected = true
+        }
+        return isConnected
+    }
 
     private fun getOkHttpClient(): OkHttpClient {
         val logging = HttpLoggingInterceptor()
@@ -55,6 +65,7 @@ object MarvelRetrofit {
                 val request = requestBuilder.build()
                 chain.proceed(request)
             }
+
             .addInterceptor { chain ->
                 var request = chain.request()
                 request = if (hasNetwork(MyApplication.context)!!)
@@ -69,58 +80,11 @@ object MarvelRetrofit {
                 }
                 chain.proceed(request)
             }
-//            .addInterceptor(logging)
+
+            .addInterceptor(logging)
+        
         return builder.build()
     }
-}
-
-//fun getOK(): OkHttpClient {
-//    val PUBLIC_KEY = "cc729ed7a287cc90f1c795f47a404608"
-//    val PRIVATE_KEY = "4dec623d3655be4869728986d93a94c729f4558e"
-//    val client = OkHttpClient.Builder().cache(myCache)
-//        .addInterceptor { chain ->
-//            val original = chain.request()
-//            val originalHttpUrl = original.url()
-//            val timestamp = "1"
-//            val hash = (timestamp + PRIVATE_KEY + PUBLIC_KEY).md5()
-//            val url = originalHttpUrl.newBuilder()
-//                .addQueryParameter("apikey", PUBLIC_KEY)
-//                .addQueryParameter("ts", timestamp)
-//                .addQueryParameter("hash", hash)
-//                .build()
-//            val requestBuilder = original.newBuilder()
-//                .url(url)
-//            val request = requestBuilder.build()
-//            chain.proceed(request)
-//        }
-//        .addInterceptor { chain ->
-//            var request = chain.request()
-//
-//            request = if (hasNetwork(MyApplication.context)!!)
-//                request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
-//            else {
-//                request.newBuilder()
-//                    .header(
-//                        "Cache-Control",
-//                        "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
-//                    )
-//                    .build()
-//            }
-//            chain.proceed(request)
-//
-//        }.build()
-//    return client
-//}
-
-fun hasNetwork(context: Context): Boolean? {
-    var isConnected: Boolean? = false // Initial Value
-    val connectivityManager =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-    if (activeNetwork != null && activeNetwork.isConnected) {
-        isConnected = true
-    }
-    return isConnected
 }
 
 
