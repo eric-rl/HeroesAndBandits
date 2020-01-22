@@ -10,6 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.heroesandbandits.Fragments.FavoritesFragment
 import com.example.heroesandbandits.Fragments.MessageFragment
 import com.example.heroesandbandits.R
@@ -62,9 +63,12 @@ private val mOnNavigationItemSelectedListener =
 
 
 private fun openFragment(fragment: Fragment) {
+    Log.d("fragment", "$fragment")
     val transaction = supportFragmentManager.beginTransaction()
+    transaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
     transaction.replace(R.id.container, fragment)
     transaction.addToBackStack(null)
+    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     transaction.commit()
 }
 
