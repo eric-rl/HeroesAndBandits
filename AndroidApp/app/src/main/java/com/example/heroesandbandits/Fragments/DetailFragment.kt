@@ -13,15 +13,8 @@ import com.example.heroesandbandits.Models.URLS
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
-import com.google.gson.stream.JsonReader
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.*
-import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.fragment_search_character.view.*
-import org.json.JSONArray
-import org.json.JSONObject
 
 class DetailFragment : Fragment() {
 
@@ -50,23 +43,26 @@ class DetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        createWebLink()
+        displayThumbnail()
+    }
 
+    private fun createWebLink() {
         if (sharedViewModel.clickedItem?.urls != null) {
 
-                goto_button_detail.setOnClickListener {
-                    var test : URLS = Gson().fromJson(sharedViewModel.clickedItem?.urls!![0], URLS::class.java)
+            goto_button_detail.setOnClickListener {
+                var urlToCharacter: URLS =
+                    Gson().fromJson(sharedViewModel.clickedItem?.urls!![0], URLS::class.java)
 
-                    Log.d("----", test.url)
-                    val openURL = Intent(Intent.ACTION_VIEW)
-                    openURL.data = Uri.parse(test.url)
-                    startActivity(openURL)
-
+                Log.d("----", urlToCharacter.url)
+                val openURL = Intent(Intent.ACTION_VIEW)
+                openURL.data = Uri.parse(urlToCharacter.url)
+                startActivity(openURL)
             }
+        }
+    }
 
-
-            }
-
-
+    private fun displayThumbnail() {
         var path = sharedViewModel.clickedItem?.thumbnail?.path
         path = path?.substring(0, 4) + "s" + path?.substring(4, path.length)
         val imageUrl =
