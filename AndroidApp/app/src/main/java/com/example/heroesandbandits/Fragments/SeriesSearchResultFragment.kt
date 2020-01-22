@@ -52,7 +52,7 @@ class SeriesSearchResultFragment : Fragment() {
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         for(series in sharedViewModel.searchResultsSeries){
-            adapter.add(SeriesItem(Series(series.id, series.title, series.description, series.thumbnail)))
+            adapter.add(SeriesItem(Series(series.id, series.title, series.description, series.thumbnail, series.urls)))
         }
 
         adapter.setOnItemClickListener { item, _ ->

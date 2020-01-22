@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.heroesandbandits.MyApplication.Companion.searchForHeroes
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.MarvelRetrofit
 import com.example.heroesandbandits.ViewModel.SharedViewModel
@@ -19,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_search.view.*
 class SearchFragment : Fragment() {
 
     private lateinit var sharedViewModel: SharedViewModel
-    private var searchForHeroes: Boolean = true
     private val disposables = CompositeDisposable()
 
     override fun onCreateView(

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Models.URLS
+import com.example.heroesandbandits.MyApplication.Companion.searchForHeroes
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.google.gson.Gson
@@ -48,17 +49,30 @@ class DetailFragment : Fragment() {
     }
 
     private fun createWebLink() {
-        if (sharedViewModel.clickedItem?.urls != null) {
+        if (searchForHeroes) {
+            if (sharedViewModel.clickedItem?.urls != null) {
 
-            goto_button_detail.setOnClickListener {
-                var urlToCharacter: URLS =
-                    Gson().fromJson(sharedViewModel.clickedItem?.urls!![0], URLS::class.java)
-
-                val openURL = Intent(Intent.ACTION_VIEW)
-                openURL.data = Uri.parse(urlToCharacter.url)
-                startActivity(openURL)
+                goto_button_detail.setOnClickListener {
+                    var urlToCharacter: URLS =
+                        Gson().fromJson(sharedViewModel.clickedItem?.urls!![0], URLS::class.java)
+                    openWebLink(urlToCharacter)
+                }
+            }
+        } else {
+            if (sharedViewModel.clickedSeries?.urls != null) {
+                goto_button_detail.setOnClickListener {
+                    var urlToSeries: URLS =
+                        Gson().fromJson(sharedViewModel.clickedSeries?.urls!![0], URLS::class.java)
+                    openWebLink(urlToSeries)
+                }
             }
         }
+    }
+
+    private fun openWebLink(url: URLS) {
+        val openURL = Intent(Intent.ACTION_VIEW)
+        openURL.data = Uri.parse(url.url)
+        startActivity(openURL)
     }
 
     private fun displayThumbnail() {
