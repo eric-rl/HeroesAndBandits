@@ -51,7 +51,7 @@ class SearchResultFragment : Fragment() {
         val adapter = GroupAdapter<GroupieViewHolder>()
 
         for(char in sharedViewModel.searchResultsCharacter){
-            adapter.add(CharacterItem(Character(char.name, char.description, char.id, char.thumbnail)))
+            adapter.add(CharacterItem(Character(char.name, char.description, char.id, char.thumbnail, char.urls)))
         }
 
         adapter.setOnItemClickListener { item, _ ->
