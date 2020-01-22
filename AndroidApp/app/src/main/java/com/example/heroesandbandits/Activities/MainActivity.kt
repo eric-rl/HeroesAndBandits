@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.util.Log.d
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.heroesandbandits.Fragments.FavoritesFragment
