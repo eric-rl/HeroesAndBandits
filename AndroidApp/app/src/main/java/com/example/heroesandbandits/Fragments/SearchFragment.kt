@@ -41,7 +41,6 @@ class SearchFragment : Fragment() {
         v.radio_group.setOnCheckedChangeListener { _, checkedId ->
             val radio: RadioButton = v.findViewById(checkedId)
             searchForHeroes = radio == v.heroesRadio
-            Log.d("---", "$searchForHeroes")
         }
         return v
     }
@@ -63,7 +62,6 @@ class SearchFragment : Fragment() {
                             if (result.data.results.isEmpty()) {
                                 replaceFragment(SearchNoResultFragment.newInstance())
                             } else {
-                                Log.d("'''", "$result")
                                 sharedViewModel.searchResultsCharacter.clear()
                                 sharedViewModel.searchResultsCharacter.addAll(result.data.results)
                                 replaceFragment(SearchResultFragment.newInstance())
@@ -79,11 +77,9 @@ class SearchFragment : Fragment() {
                             Log.d("___", "Something went wrong: ${err.message}")
                             replaceFragment(SearchNoResultFragment.newInstance())
                         } else {
-                            Log.d("___", "${result.data}")
                             if (result.data.results.isEmpty()) {
                                 replaceFragment(SearchNoResultFragment.newInstance())
                             } else {
-                                Log.d("'''", "$result")
                                 sharedViewModel.searchResultsSeries.clear()
                                 sharedViewModel.searchResultsSeries.addAll(result.data.results)
                                 replaceFragment(SeriesSearchResultFragment.newInstance())
@@ -109,7 +105,6 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("__", "hej från search")
     }
 
     override fun onDestroy() {

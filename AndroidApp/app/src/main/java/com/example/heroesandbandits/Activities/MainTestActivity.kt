@@ -8,7 +8,6 @@ class MainTestActivity : AppCompatActivity() {
 //        super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main22)
 //
-//        Log.d("__", "Hej från metoden create recyclerView")
 //        val adapter = GroupAdapter<GroupieViewHolder>()
 //        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))
 //        adapter.add(HeroItem(Hero("ksjdghfksd", 23)))

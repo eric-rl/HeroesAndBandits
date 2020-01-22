@@ -38,7 +38,5 @@ class MessageFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("__", "hej från message")
-
     }
 }

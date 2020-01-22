@@ -54,7 +54,6 @@ class DetailFragment : Fragment() {
                 var urlToCharacter: URLS =
                     Gson().fromJson(sharedViewModel.clickedItem?.urls!![0], URLS::class.java)
 
-                Log.d("----", urlToCharacter.url)
                 val openURL = Intent(Intent.ACTION_VIEW)
                 openURL.data = Uri.parse(urlToCharacter.url)
                 startActivity(openURL)
