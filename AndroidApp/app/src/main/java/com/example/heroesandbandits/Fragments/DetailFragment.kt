@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Models.URLS
-import com.example.heroesandbandits.MyApplication.Companion.searchForHeroes
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.google.gson.Gson
@@ -49,7 +48,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun createWebLink() {
-        if (searchForHeroes) {
+        if (sharedViewModel.searchForHeroes) {
             if (sharedViewModel.clickedItem?.urls != null) {
 
                 goto_button_detail.setOnClickListener {

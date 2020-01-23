@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.heroesandbandits.MyApplication.Companion.searchForHeroes
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.MarvelRetrofit
 import com.example.heroesandbandits.ViewModel.SharedViewModel
@@ -40,7 +39,7 @@ class SearchFragment : Fragment() {
 
         v.radio_group.setOnCheckedChangeListener { _, checkedId ->
             val radio: RadioButton = v.findViewById(checkedId)
-            searchForHeroes = radio == v.heroesRadio
+            sharedViewModel.searchForHeroes = radio == v.heroesRadio
         }
         return v
     }
@@ -49,7 +48,7 @@ class SearchFragment : Fragment() {
 
         val toBeDisposed: Disposable
 
-        if (searchForHeroes) {
+        if (sharedViewModel.searchForHeroes) {
 
             toBeDisposed =
                 MarvelRetrofit.marvelService.searchForCharacter(view!!.search_input.text.toString())

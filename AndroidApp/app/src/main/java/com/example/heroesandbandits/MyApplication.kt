@@ -6,7 +6,6 @@ import android.content.Context
 class MyApplication : Application() {
     companion object {
         lateinit var context: Context
-        var searchForHeroes: Boolean = true
     }
 
     override fun onCreate() {
