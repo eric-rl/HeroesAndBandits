@@ -72,4 +72,6 @@ private fun openFragment(fragment: Fragment) {
     transaction.commit()
 }
 
+
+
 }
