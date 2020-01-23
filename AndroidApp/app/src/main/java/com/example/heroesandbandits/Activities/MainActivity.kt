@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         anonLoginTest()
     }
 
-    private fun anonLoginTest(){
+    private fun anonLoginTest() {
         val client = Stitch.getDefaultAppClient()
         client.auth.loginWithCredential(AnonymousCredential()).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -47,15 +47,16 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-private fun openFragment(fragment: Fragment) {
-    Log.d("fragment", "$fragment")
-    val transaction = supportFragmentManager.beginTransaction()
-    transaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-    transaction.replace(R.id.container, fragment)
-    transaction.addToBackStack(null)
-    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-    transaction.commit()
-}
+    private fun openFragment(fragment: Fragment) {
+        Log.d("fragment", "$fragment")
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+        transaction.replace(R.id.container, fragment)
+        transaction.addToBackStack(null)
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+        transaction.commit()
+    }
+
     private val mOnNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -80,7 +81,6 @@ private fun openFragment(fragment: Fragment) {
             }
             false
         }
-
 
 
 }
