@@ -3,7 +3,6 @@ package com.example.heroesandbandits.Activities
 import android.os.Bundle
 import android.util.Log
 import android.util.Log.d
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -47,11 +46,25 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun openFragment(fragment: Fragment) {
-        Log.d("fragment", "$fragment")
+    private fun openFragment(nextFragment: Fragment) {
+        var fromFrag = supportFragmentManager.findFragmentById(R.id.container)
+        d("frag", "current frag $fromFrag")
+        d("frag", "switching to $nextFragment")
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-        transaction.replace(R.id.container, fragment)
+
+
+        if (fromFrag is SearchFragment && nextFragment is MessageFragment || nextFragment is FavoritesFragment) {
+            transaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+        } else if(fromFrag is MessageFragment && nextFragment is SearchFragment){
+            transaction.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+        } else if(fromFrag is FavoritesFragment && nextFragment is MessageFragment || nextFragment is SearchFragment){
+            transaction.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+        }
+
+
+
+
+        transaction.replace(R.id.container, nextFragment)
         transaction.addToBackStack(null)
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         transaction.commit()
