@@ -15,6 +15,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+        val char = viewHolder.item as CharacterItem
         var path = character.thumbnail.path
         path = path.substring(0, 4) + "s" + path.substring(4, path.length)
         val imageUrl = path + "/standard_medium." + character.thumbnail.extension
@@ -22,6 +23,14 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
         Picasso.get().load(imageUrl)
             .error(R.drawable.cat)
             .into(viewHolder.itemView.resultItemAvatar)
+
+//        viewHolder.itemView.favorite_button.isChecked = true
+
+        viewHolder.itemView.favorite_button.setOnClickListener {
+            Log.d("favorite", char.character.name)
+//            val img =
+//            viewHolder.itemView.favorite_button.setImageResource()
+        }
     }
 
 }

@@ -45,9 +45,21 @@
             android:text="@string/title"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/resultItemAvatarView"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/favorite_button"
             app:layout_constraintStart_toEndOf="@+id/resultItemAvatarView"
             app:layout_constraintTop_toTopOf="@+id/resultItemAvatarView" />
+
+        <CheckBox
+            android:id="@+id/favorite_button"
+            android:button="@android:drawable/btn_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
