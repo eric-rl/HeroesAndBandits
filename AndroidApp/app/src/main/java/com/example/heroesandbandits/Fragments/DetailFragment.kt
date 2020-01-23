@@ -44,7 +44,11 @@ class DetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         createWebLink()
-        displayThumbnail()
+        if(sharedViewModel.searchForHeroes){
+            displayCharacter()
+        } else {
+            displaySerie()
+        }
     }
 
     private fun createWebLink() {
@@ -74,7 +78,7 @@ class DetailFragment : Fragment() {
         startActivity(openURL)
     }
 
-    private fun displayThumbnail() {
+    private fun displayCharacter() {
         var path = sharedViewModel.clickedItem?.thumbnail?.path
         path = path?.substring(0, 4) + "s" + path?.substring(4, path.length)
         val imageUrl =
@@ -84,5 +88,17 @@ class DetailFragment : Fragment() {
             .error(R.drawable.cat)
             .into(details_image)
         details_name.text = sharedViewModel.clickedItem?.name
+    }
+
+    private fun displaySerie() {
+        var path = sharedViewModel.clickedSeries?.thumbnail?.path
+        path = path?.substring(0, 4) + "s" + path?.substring(4, path.length)
+        val imageUrl =
+            path + "/standard_medium." + sharedViewModel.clickedSeries?.thumbnail?.extension
+
+        Picasso.get().load(imageUrl)
+            .error(R.drawable.cat)
+            .into(details_image)
+        details_name.text = sharedViewModel.clickedSeries?.title
     }
 }
