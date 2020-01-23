@@ -26,8 +26,14 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
 //        viewHolder.itemView.favorite_button.isChecked = true
 
-        viewHolder.itemView.favorite_button.setOnClickListener {
-            Log.d("favorite", char.character.name)
+        val favoriteButton = viewHolder.itemView.favorite_button
+
+        favoriteButton.setOnClickListener {
+            if(favoriteButton.isChecked){
+                Log.d("favorite", "${favoriteButton.isChecked}")
+            } else {
+                Log.d("favorite", "${favoriteButton.isChecked}")
+            }
 //            val img =
 //            viewHolder.itemView.favorite_button.setImageResource()
         }
