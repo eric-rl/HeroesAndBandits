@@ -1,31 +1,23 @@
 package com.example.heroesandbandits.Activities
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
 import android.util.Log.d
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.heroesandbandits.Fragments.FavoritesFragment
 import com.example.heroesandbandits.Fragments.MessageFragment
-import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Fragments.SearchFragment
-import com.example.heroesandbandits.Fragments.SearchNoResultFragment
-import com.example.heroesandbandits.Models.Character
-import com.example.heroesandbandits.Models.CharacterDataWrapper
-import com.example.heroesandbandits.Utils.MarvelRetrofit
+import com.example.heroesandbandits.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.gson.JsonObject
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_search.*
+import com.mongodb.stitch.android.core.Stitch
+import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential
+
 
 class MainActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,32 +25,25 @@ class MainActivity : AppCompatActivity() {
         openFragment(SearchFragment.newInstance())
         val bottomNavigation: BottomNavigationView = findViewById(R.id.navigationView)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        anonLoginTest()
     }
 
-
-private val mOnNavigationItemSelectedListener =
-    BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_search -> {
-                val searchFragment =
-                    SearchFragment.newInstance()
-                openFragment(searchFragment)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_message -> {
-                val messageFragment =
-                    MessageFragment.newInstance()
-                openFragment(messageFragment)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_favorites -> {
-                val favFragment =
-                    FavoritesFragment.newInstance()
-                openFragment(favFragment)
-                return@OnNavigationItemSelectedListener true
+    private fun anonLoginTest(){
+        val client = Stitch.getDefaultAppClient()
+        client.auth.loginWithCredential(AnonymousCredential()).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                d(
+                    "___", String.format(
+                        "logged in as user %s with provider %s",
+                        task.result.id,
+                        task.result.loggedInProviderType
+                    )
+                )
+            } else {
+                Log.e("myApp", "failed to log in", task.exception)
             }
         }
-        false
     }
 
 
@@ -71,6 +56,30 @@ private fun openFragment(fragment: Fragment) {
     transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
     transaction.commit()
 }
+    private val mOnNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_search -> {
+                    val searchFragment =
+                        SearchFragment.newInstance()
+                    openFragment(searchFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_message -> {
+                    val messageFragment =
+                        MessageFragment.newInstance()
+                    openFragment(messageFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_favorites -> {
+                    val favFragment =
+                        FavoritesFragment.newInstance()
+                    openFragment(favFragment)
+                    return@OnNavigationItemSelectedListener true
+                }
+            }
+            false
+        }
 
 
 
