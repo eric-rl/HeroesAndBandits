@@ -6,7 +6,6 @@ import android.util.Log
 import android.util.Log.d
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.heroesandbandits.Activities.SearchActivity
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.StitchCon
 import kotlinx.android.synthetic.main.activity_login.*

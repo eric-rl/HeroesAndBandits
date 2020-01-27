@@ -10,9 +10,9 @@ import com.mongodb.stitch.android.core.auth.providers.userpassword.UserPasswordA
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase
 import com.mongodb.stitch.core.auth.providers.userpassword.UserPasswordCredential
-import com.mongodb.stitch.core.services.mongodb.remote.RemoteInsertOneResult
+import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateOptions
+import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult
 import org.bson.Document
-import java.util.*
 
 
 private class UserConnection(val stitchAppClient: StitchAppClient) {
@@ -54,46 +54,25 @@ object StitchCon {
             }
     }
 
-    fun addToFavourites(id: Int): Task<RemoteInsertOneResult>? {
+    fun addToFavourites(id: Int): Task<RemoteUpdateResult>? {
+        val filterDoc = Document().append("user_id",client?.auth?.user?.id)
+        val updateDoc = Document().append("\$addToSet", Document().append("characters", Document().append("char_id",id)))
+        val optionsDoc = RemoteUpdateOptions().upsert(true)
+        return db!!.getCollection("favourites").updateOne(filterDoc,updateDoc, optionsDoc)
+    }
 
-        val doc = Document()
-        doc["user_id"] = client?.auth?.user?.id
-        doc["character_id"] = id
+    fun removeFromFavourites(id: Int): Task<RemoteUpdateResult>? {
+        val filterDoc = Document().append("user_id",client?.auth?.user?.id)
+        val updateDoc = Document().append("\$pull", Document().append("characters", Document().append("char_id",id)))
+        return db!!.getCollection("favourites").updateOne(filterDoc,updateDoc)
+    }
 
-        return db!!.getCollection("favourites").insertOne(doc)
-
-//        val newItem: DocumentsContract.Document = DocumentsContract.Document.
-//            .append("name", "legos")
-//            .append("quantity", 10)
-//            .append("category", "toys")
-//            .append(
-//                "reviews", Arrays.asList(
-//                    DocumentsContract.Document()
-//                        .append("username", "mongolover")
-//                        .append("comment", "this is great")
-//                )
-//            )
+    fun getFavourites(){
     }
 
     fun login(email: String, password: String): Task<StitchUser>? {
         val credential = UserPasswordCredential(email, password)
         return client?.auth?.loginWithCredential(credential)
     }
-
-//    fun anonymouslogin() {
-//        client
-//            .auth
-//            .loginWithCredential(AnonymousCredential())
-//            .addOnCompleteListener {
-//                if (it.isSuccessful) {
-//                    Log.d("___", "logged in anonymously")
-//                    user = it.result
-//                    Log.d("___", "user: ${user?.id + " " + user?.isLoggedIn}")
-//
-//                } else {
-//                    Log.e("___", "failed to log in anonymously", it.exception);
-//                }
-//            }
-//    }
 
 }

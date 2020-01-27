@@ -2,22 +2,10 @@ package com.example.heroesandbandits.Activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.util.Log.d
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import com.example.heroesandbandits.Fragments.FavoritesFragment
-import com.example.heroesandbandits.Fragments.MessageFragment
-import com.example.heroesandbandits.Fragments.SearchFragment
-import com.example.heroesandbandits.R
-import com.example.heroesandbandits.Utils.StitchCon
-import com.google.android.material.bottomnavigation.BottomNavigationView
-    import com.mongodb.stitch.android.core.Stitch
-    import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential
 
 
-    class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
 
         override fun onCreate(savedInstanceState: Bundle?) {

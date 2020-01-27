@@ -33,23 +33,36 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
         favoriteButton.setOnClickListener {
             if (favoriteButton.isChecked) {
-                Log.d("favorite", "${character.name} ${favoriteButton.isChecked}")
-                val t = StitchCon.addToFavourites(character.id)
-                t?.addOnCompleteListener {
-                    if(it.isSuccessful){
-                        Log.d("___", "adding to favourites to fabourites, insertId: ${it.result.insertedId}");
+                Log.d("___favorite", "${character.name} ${favoriteButton.isChecked}")
+                StitchCon.addToFavourites(character.id)?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+
+                        Log.d("___", "adding to favourites to favourites, insertId: $it)}");
                         Toast.makeText(
                             MyApplication.context,
-                            "Successfully added to fabourites, insertId: ${it.result.insertedId}", Toast.LENGTH_LONG
+                            "Successfully added to favourites, insertId: ${it}", Toast.LENGTH_LONG
                         ).show()
                     } else {
                         Log.e("___", "Error adding to favourites", it.exception);
 
                     }
-
                 }
             } else {
-                Log.d("favorite", "${favoriteButton.isChecked}")
+                StitchCon.removeFromFavourites(character.id)?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+
+                        Log.d("___", "removed from favourites, insertId: ${it.result}");
+                        Toast.makeText(
+                            MyApplication.context,
+                            "Successfully removed from favourites, insertId: ${it}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Log.e("___", "Error removing from favourites", it.exception);
+
+                    }
+                    Log.d("___favorite", "${favoriteButton.isChecked}")
+                }
             }
         }
     }

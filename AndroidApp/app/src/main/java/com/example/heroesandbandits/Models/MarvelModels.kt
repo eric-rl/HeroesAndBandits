@@ -1,9 +1,6 @@
 package com.example.heroesandbandits.Models
 
-import android.media.Image
-import android.provider.DocumentsContract
 import com.google.gson.JsonObject
-import retrofit2.http.Url
 
 data class CharacterDataWrapper(    // val copyright: String, // optional): The copyright notice for the returned result.,
     // val attributionText: String, // optional): The attribution notice for this result. Please display either this notice or the contents of the attributionHTML field on all screens which contain data from the Marvel Comics API.,
