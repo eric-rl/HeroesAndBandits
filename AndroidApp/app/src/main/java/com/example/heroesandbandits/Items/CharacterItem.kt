@@ -37,7 +37,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                 val t = StitchCon.addToFavourites(character.id)
                 t?.addOnCompleteListener {
                     if(it.isSuccessful){
-                        Log.e("___", "adding to favourites to fabourites, insertId: ${it.result.insertedId}");
+                        Log.d("___", "adding to favourites to fabourites, insertId: ${it.result.insertedId}");
                         Toast.makeText(
                             MyApplication.context,
                             "Successfully added to fabourites, insertId: ${it.result.insertedId}", Toast.LENGTH_LONG

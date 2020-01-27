@@ -32,13 +32,10 @@ object StitchCon {
         if(client == null) {
                 client = Stitch.getDefaultAppClient()
                 emailPassClient = client!!.auth.getProviderClient(UserPasswordAuthProviderClient.factory)
-
+                db = client!!
+                    .getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
+                    .getDatabase("db")
         }
-    }
-
-    fun initDb(){
-        var remoteClient = client!!.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
-        db = remoteClient.getDatabase("db")
     }
 
     fun registerUser(user: String, pass: String): Task<Void>? {
