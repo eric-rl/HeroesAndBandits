@@ -15,12 +15,7 @@ import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult
 import org.bson.Document
 
 
-private class UserConnection(val stitchAppClient: StitchAppClient) {
-
-}
-
 object StitchCon {
-    var user: StitchUser? = null
     private var client: StitchAppClient? = null
     private var emailPassClient: UserPasswordAuthProviderClient? = null
     private var db: RemoteMongoDatabase? = null
