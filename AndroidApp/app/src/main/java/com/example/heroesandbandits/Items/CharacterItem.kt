@@ -1,8 +1,11 @@
 package com.example.heroesandbandits.Items
 
 import android.util.Log
+import android.widget.Toast
 import com.example.heroesandbandits.Models.Character
+import com.example.heroesandbandits.MyApplication
 import com.example.heroesandbandits.R
+import com.example.heroesandbandits.Utils.StitchCon
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
@@ -31,6 +34,20 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
         favoriteButton.setOnClickListener {
             if (favoriteButton.isChecked) {
                 Log.d("favorite", "${character.name} ${favoriteButton.isChecked}")
+                val t = StitchCon.addToFavourites(character.id)
+                t?.addOnCompleteListener {
+                    if(it.isSuccessful){
+                        Log.e("___", "adding to favourites to fabourites, insertId: ${it.result.insertedId}");
+                        Toast.makeText(
+                            MyApplication.context,
+                            "Successfully added to fabourites, insertId: ${it.result.insertedId}", Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Log.e("___", "Error adding to favourites", it.exception);
+
+                    }
+
+                }
             } else {
                 Log.d("favorite", "${favoriteButton.isChecked}")
             }

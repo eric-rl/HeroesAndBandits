@@ -1,6 +1,7 @@
 package com.example.heroesandbandits.Models
 
 import android.media.Image
+import android.provider.DocumentsContract
 import com.google.gson.JsonObject
 import retrofit2.http.Url
 

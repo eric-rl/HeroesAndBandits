@@ -2,16 +2,17 @@ package com.example.heroesandbandits.Utils
 
 import android.util.Log
 import android.util.Log.d
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
-import com.mongodb.lang.NonNull
 import com.mongodb.stitch.android.core.Stitch
 import com.mongodb.stitch.android.core.StitchAppClient
 import com.mongodb.stitch.android.core.auth.StitchUser
 import com.mongodb.stitch.android.core.auth.providers.userpassword.UserPasswordAuthProviderClient
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient
-import com.mongodb.stitch.core.auth.providers.anonymous.AnonymousCredential
+import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase
 import com.mongodb.stitch.core.auth.providers.userpassword.UserPasswordCredential
+import com.mongodb.stitch.core.services.mongodb.remote.RemoteInsertOneResult
+import org.bson.Document
+import java.util.*
 
 
 private class UserConnection(val stitchAppClient: StitchAppClient) {
@@ -22,7 +23,7 @@ object StitchCon {
     var user: StitchUser? = null
     private var client: StitchAppClient? = null
     private var emailPassClient: UserPasswordAuthProviderClient? = null
-    //    val db: RemoteMongoClient
+    private var db: RemoteMongoDatabase? = null
 
 
 
@@ -31,8 +32,13 @@ object StitchCon {
         if(client == null) {
                 client = Stitch.getDefaultAppClient()
                 emailPassClient = client!!.auth.getProviderClient(UserPasswordAuthProviderClient.factory)
+
         }
-//        db = client.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
+    }
+
+    fun initDb(){
+        var remoteClient = client!!.getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
+        db = remoteClient.getDatabase("db")
     }
 
     fun registerUser(user: String, pass: String): Task<Void>? {
@@ -49,6 +55,27 @@ object StitchCon {
                     )
                 }
             }
+    }
+
+    fun addToFavourites(id: Int): Task<RemoteInsertOneResult>? {
+
+        val doc = Document()
+        doc["user_id"] = client?.auth?.user?.id
+        doc["character_id"] = id
+
+        return db!!.getCollection("favourites").insertOne(doc)
+
+//        val newItem: DocumentsContract.Document = DocumentsContract.Document.
+//            .append("name", "legos")
+//            .append("quantity", 10)
+//            .append("category", "toys")
+//            .append(
+//                "reviews", Arrays.asList(
+//                    DocumentsContract.Document()
+//                        .append("username", "mongolover")
+//                        .append("comment", "this is great")
+//                )
+//            )
     }
 
     fun login(email: String, password: String): Task<StitchUser>? {
