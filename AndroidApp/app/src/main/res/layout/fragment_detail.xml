@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#8BC34A">
+    android:background="#C04640">
 
 
     <ImageView
@@ -13,9 +12,9 @@
         android:layout_height="213dp"
         android:layout_marginStart="36dp"
         android:layout_marginTop="36dp"
+        android:src="@drawable/cat"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/cat"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/goto_button_detail"
@@ -27,7 +26,7 @@
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/send_button_detail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/details_image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -39,7 +38,7 @@
         android:text="Send"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/details_image"
         app:layout_constraintTop_toBottomOf="@+id/goto_button_detail" />
 
     <Button
@@ -51,7 +50,7 @@
         android:text="Favorite"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/details_image"
         app:layout_constraintTop_toBottomOf="@+id/send_button_detail" />
 
     <TextView
@@ -62,7 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/details_image" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
