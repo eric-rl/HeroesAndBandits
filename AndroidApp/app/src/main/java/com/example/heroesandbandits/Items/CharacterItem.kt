@@ -22,8 +22,14 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         val favoriteButton = viewHolder.itemView.favorite_button
-        val favouriteChecked = StitchCon.user?.characters!!.find {
-            it["char_id"] == character.id}
+//        val favouriteChecked = StitchCon.user?.characters!!.find {
+//            it["char_id"] == character.id}
+//        if(favouriteChecked != null){
+//            favoriteButton.isChecked = true
+//        }
+
+                val favouriteChecked = StitchCon.userData?.characters!!.find {
+            it as Int == character.id}
         if(favouriteChecked != null){
             favoriteButton.isChecked = true
         }

@@ -3,9 +3,7 @@ package com.example.heroesandbandits.Utils
 import android.util.Log
 import android.util.Log.d
 import com.example.heroesandbandits.Models.StitchBson
-import com.example.heroesandbandits.Models.User
 import com.google.android.gms.tasks.Task
-import com.google.gson.JsonObject
 import com.mongodb.stitch.android.core.Stitch
 import com.mongodb.stitch.android.core.StitchAppClient
 import com.mongodb.stitch.android.core.auth.StitchUser
@@ -17,18 +15,32 @@ import com.mongodb.stitch.core.auth.providers.userpassword.UserPasswordCredentia
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteFindOptions
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateOptions
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult
-import org.bson.BSONObject
-import org.bson.BsonDocument
 import org.bson.Document
 
 
 object StitchCon {
+    class UserData(data: Document){
+        val _id:String
+        val id:String
+        var favourites:Document
+        var characters:ArrayList<*>
+        init {
+            _id = data["_id"].toString()
+            id = data["id"].toString()
+            favourites =  data["favourites"] as Document
+            characters = favourites["characters"] as ArrayList<*>
+        }
+    }
+
+
     private var client: StitchAppClient? = null
     private var emailPassClient: UserPasswordAuthProviderClient? = null
     private var db: RemoteMongoDatabase? = null
-    private var favouritesCollection: RemoteMongoCollection<Document>? = null
+    private var userDataCollection: RemoteMongoCollection<Document>? = null
     private var userFilter: Document? = null
-    var user: User? = null
+
+//    var user: User? = null
+    var userData:UserData? = null
 
 
     init {
@@ -40,8 +52,7 @@ object StitchCon {
             db = client!!
                 .getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
                 .getDatabase("db")
-            favouritesCollection = db!!.getCollection("favourites")
-
+            userDataCollection = db!!.getCollection("user_data")
         }
     }
 
@@ -64,24 +75,24 @@ object StitchCon {
     fun addToFavourites(item: StitchBson): Task<RemoteUpdateResult>? {
         val updateDoc = Document().append(
             "\$addToSet",
-            Document().append("characters", Document().append("char_id", item.id))
+            Document().append("favourites.characters", item.id)
         )
-        val optionsDoc = RemoteUpdateOptions().upsert(true)
-        return favouritesCollection?.updateOne(userFilter, updateDoc, optionsDoc)
+//        val optionsDoc = RemoteUpdateOptions().upsert(true)
+        return userDataCollection?.updateOne(userFilter, updateDoc)
     }
 
     fun removeFromFavourites(item: StitchBson): Task<RemoteUpdateResult>? {
         val updateDoc = Document().append(
             "\$pull",
-            Document().append("characters", Document().append("char_id", item.id))
+            Document().append("favourites.characters", item.id)
         )
-        return favouritesCollection?.updateOne(userFilter, updateDoc)
+        return userDataCollection?.updateOne(userFilter, updateDoc)
     }
 
-    fun getFavourites(): Task<Document>? {
-        val proj = Document().append("characters", 1)
-        return favouritesCollection?.findOne(userFilter, RemoteFindOptions().projection(proj))
-    }
+//    fun getFavourites(): Task<Document>? {
+//        val proj = Document().append("characters", 1)
+//        return userDataCollection?.findOne(userFilter, RemoteFindOptions().projection(proj))
+//    }
 
     fun login(email: String, password: String): Task<StitchUser>? {
         val credential = UserPasswordCredential(email, password)
@@ -89,14 +100,14 @@ object StitchCon {
     }
 
     fun initUser() {
-        userFilter = Document().append("user_id", client?.auth?.user?.id)
-        getFavourites()?.addOnCompleteListener {
+        userFilter =  Document().append("id", client?.auth?.user?.id)
+        db!!.getCollection("user_data").findOne(userFilter).addOnCompleteListener {
             if (it.isSuccessful) {
-                user =
-                    User(client?.auth?.user?.id!!, it.result["characters"] as ArrayList<Document>)
-                d("___", "size: ${user?.characters?.size}")
+                userData = UserData(it.result)
+                d("___", "id: ${userData?.id}  -  size: ${userData?.characters?.size}")
+
             } else {
-                Log.e("___", "Error getting favourites", it.exception)
+                Log.e("___USER", "Error getting user_data", it.exception)
             }
         }
     }

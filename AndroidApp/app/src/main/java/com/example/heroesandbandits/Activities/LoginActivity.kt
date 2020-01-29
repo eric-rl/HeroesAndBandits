@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
                 StitchCon.initUser()
                 startActivity(Intent(this, SearchActivity::class.java))
             } else {
-                Log.e("___", "Error logging in with email/password auth:", it.exception);
+                Log.e("___", "Error logging in with email/password auth:", it.exception)
             }
         }
     }
