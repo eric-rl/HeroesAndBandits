@@ -1,14 +1,18 @@
 package com.example.heroesandbandits.Fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Items.CharacterItem
 import com.example.heroesandbandits.Models.Character
+import com.example.heroesandbandits.MyApplication
 import com.example.heroesandbandits.R
+import com.example.heroesandbandits.Utils.StitchCon
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
@@ -27,7 +31,6 @@ class FavoritesFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_favorites, container, false)
         val adapter = createRecyclerView()
         view.recyclerViewTest.adapter = adapter
-
         return view
     }
 //        inflater.inflate(R.layout.fragment_favorites, container, false)

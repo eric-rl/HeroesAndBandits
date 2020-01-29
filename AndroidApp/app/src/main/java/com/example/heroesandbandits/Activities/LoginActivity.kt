@@ -45,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
                     "Successfully logged in as user " + it.result.id, Toast.LENGTH_LONG
                 ).show()
                 d("___", "Successfully logged in as user " + it.result.id)
+                StitchCon.initUser()
                 startActivity(Intent(this, SearchActivity::class.java))
             } else {
                 Log.e("___", "Error logging in with email/password auth:", it.exception);

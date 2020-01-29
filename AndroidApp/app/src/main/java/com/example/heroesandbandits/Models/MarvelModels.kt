@@ -1,6 +1,9 @@
 package com.example.heroesandbandits.Models
 
 import com.google.gson.JsonObject
+import org.bson.BSONObject
+import org.bson.BsonDocument
+import org.bson.Document
 
 data class CharacterDataWrapper(    // val copyright: String, // optional): The copyright notice for the returned result.,
     // val attributionText: String, // optional): The attribution notice for this result. Please display either this notice or the contents of the attributionHTML field on all screens which contain data from the Marvel Comics API.,
@@ -33,10 +36,20 @@ data class Character(
 
     var name: String, //, optional): The name of the character.
     val description: String, //, optional): A short bio or description of the character.
-    val id: Int, //, optional): The unique ID of the character resource.,
+    override val id: Int, //, optional): The unique ID of the character resource.,
     val thumbnail: ImageModel, //, optional): The representative image for this character.,
     val urls: Array<JsonObject>?
-)
+):StitchBson {
+    override fun doc(): Document? {
+        return Document()
+            .append("name", name)
+            .append("description", description)
+            .append("id", id)
+            .append("thumbnail", thumbnail)
+            .append("urls", urls)
+    }
+}
+
 
 data class ImageModel(
     var path: String,
@@ -58,4 +71,14 @@ data class Series(
     val description: String?,
     val thumbnail: ImageModel,
     val urls: Array<JsonObject>
+)
+
+interface StitchBson {
+    val id: Int
+    fun doc():Document?
+}
+
+data class User(
+    val id: String,
+    val characters: ArrayList<Document>
 )
