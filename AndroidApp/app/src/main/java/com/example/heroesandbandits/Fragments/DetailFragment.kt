@@ -3,6 +3,7 @@ package com.example.heroesandbandits.Fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -87,6 +88,9 @@ class DetailFragment : Fragment() {
             .error(R.drawable.cat)
             .into(details_image)
         details_name.text = sharedViewModel.clickedItem?.name
+        details_description.text = sharedViewModel.clickedItem?.description
+        Log.d("huehuehue", "${sharedViewModel.clickedItem}")
+
     }
 
     private fun displaySerie() {
@@ -99,5 +103,6 @@ class DetailFragment : Fragment() {
             .error(R.drawable.cat)
             .into(details_image)
         details_name.text = sharedViewModel.clickedSeries?.title
+        details_description.text = sharedViewModel.clickedSeries?.description
     }
 }
