@@ -72,7 +72,7 @@ data class SeriesDataContainer(
 data class Series(
     override val id: Int,
     val title: String,
-    val description: String?,
+    val description: String,
     val thumbnail: ImageModel,
     val urls: Array<JsonObject>
 ):MarvelId
