@@ -115,22 +115,24 @@ object StitchCon {
     }
 
     fun addSearch(query:String, result: Array<Character>){
-        var t = Search(query, result.map { character -> character.doc() } as ArrayList<Document>)
-        searchCollection?.insertOne(Document().append("search", t.doc()))?.addOnCompleteListener {
-            if(it.isSuccessful){
-                d("___", "id: ${it.result.insertedId}")
-            } else {
-                e("___","error when adding search!!! : ${it.exception}")
-            }
-        }
+        
+//        var t = Search(query, result.map { character -> character.doc() } as ArrayList<Document>)
+//        searchCollection?.insertOne(Document().append("search", t.doc()))?.addOnCompleteListener {
+//            if(it.isSuccessful){
+//                d("___", "id: ${it.result.insertedId}")
+//            } else {
+//                e("___","error when adding search!!! : ${it.exception}")
+//            }
+//        }
     }
 
     fun addCharacter(characters: Array<Character>){
-        characterCollection?.insertMany(        characters.map { character -> character.doc() }
+        characterCollection?.insertMany(characters.map { character -> character.doc() }
         )?.addOnCompleteListener {
             if(it.isSuccessful){
-//                it.result.insertedIds
-                d("___", "id: ${it.result}")
+                it.result.insertedIds.values.forEach {
+                    d("___", "INSERT CHARACTER-id: $it")
+                }
             } else {
                 e("___","error when adding search!!! : ${it.exception}")
             }
