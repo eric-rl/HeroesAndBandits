@@ -95,7 +95,7 @@ object StitchCon {
             "\$addToSet",
             Document().append("favourites.characters", item.id)
         )
-        userData?.characters?.add(item.id)
+//        userData?.characters?.add(item.id)
 //        val optionsDoc = RemoteUpdateOptions().upsert(true)
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }
