@@ -1,7 +1,6 @@
 package com.example.heroesandbandits.Fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.fragment_search_character.view.*
 import kotlinx.android.synthetic.main.fragment_search_result.view.*
 
 class SearchResultFragment : Fragment() {

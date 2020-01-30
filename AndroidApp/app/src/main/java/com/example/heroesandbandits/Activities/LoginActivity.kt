@@ -6,7 +6,6 @@ import android.util.Log
 import android.util.Log.d
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.heroesandbandits.Activities.SearchActivity
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.StitchCon
 import kotlinx.android.synthetic.main.activity_login.*
@@ -41,14 +40,16 @@ class LoginActivity : AppCompatActivity() {
     fun login(email: String, password: String) {
         StitchCon.login(email, password)?.addOnCompleteListener {
             if (it.isSuccessful) {
+                it.result.id
                 Toast.makeText(
                     this,
                     "Successfully logged in as user " + it.result.id, Toast.LENGTH_LONG
                 ).show()
                 d("___", "Successfully logged in as user " + it.result.id)
+                StitchCon.initUser()
                 startActivity(Intent(this, SearchActivity::class.java))
             } else {
-                Log.e("___", "Error logging in with email/password auth:", it.exception);
+                Log.e("___", "Error logging in with email/password auth:", it.exception)
             }
         }
     }

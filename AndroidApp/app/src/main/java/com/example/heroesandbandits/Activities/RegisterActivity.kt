@@ -18,7 +18,7 @@ class RegisterActivity : AppCompatActivity() {
         register_button_register.setOnClickListener {
             performRegister()
         }
-
+        
         already_have_account_text_view.setOnClickListener {
             Log.d("__RegisterActivity", "Try to show login activity")
             // launch the login activity

@@ -1,6 +1,5 @@
 package com.example.heroesandbandits.Items
 
-import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.Models.Series
 import com.example.heroesandbandits.R
 import com.squareup.picasso.Picasso

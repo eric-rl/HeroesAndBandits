@@ -3,8 +3,6 @@ package com.example.heroesandbandits.Utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.util.Log
-import com.example.heroesandbandits.Activities.MainActivity
 import com.example.heroesandbandits.MyApplication
 import okhttp3.Cache
 import okhttp3.OkHttpClient

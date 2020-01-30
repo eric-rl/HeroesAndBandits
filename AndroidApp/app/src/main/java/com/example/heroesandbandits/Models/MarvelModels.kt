@@ -1,8 +1,10 @@
 package com.example.heroesandbandits.Models
 
-import android.media.Image
 import com.google.gson.JsonObject
-import retrofit2.http.Url
+import org.bson.BSONObject
+import org.bson.BsonDocument
+import org.bson.Document
+import org.bson.conversions.Bson
 
 data class CharacterDataWrapper(    // val copyright: String, // optional): The copyright notice for the returned result.,
     // val attributionText: String, // optional): The attribution notice for this result. Please display either this notice or the contents of the attributionHTML field on all screens which contain data from the Marvel Comics API.,
@@ -35,15 +37,33 @@ data class Character(
 
     var name: String, //, optional): The name of the character.
     val description: String, //, optional): A short bio or description of the character.
-    val id: Int, //, optional): The unique ID of the character resource.,
+    override val id: Int, //, optional): The unique ID of the character resource.,
     val thumbnail: ImageModel, //, optional): The representative image for this character.,
     val urls: Array<JsonObject>?
-)
+):StitchBson, MarvelId {
+    override fun doc(): Document? {
+        return Document()
+            .append("name", name)
+            .append("description", description)
+            .append("id", id)
+            .append("thumbnail", thumbnail.doc())
+            .append("urls", urls?.map {
+                Document.parse(it.toString())
+            })
+    }
+}
+
 
 data class ImageModel(
     var path: String,
     var extension: String
-)
+) : StitchBson {
+    override fun doc(): Document? {
+        return Document()
+            .append("path", path)
+            .append("extension", extension)
+    }
+}
 
 data class SeriesDataWrapper(
     val code: Int,
@@ -61,3 +81,25 @@ data class Series(
     val thumbnail: ImageModel,
     val urls: Array<JsonObject>
 )
+
+interface StitchBson {
+    fun doc():Document?
+}
+
+
+interface MarvelId{
+    val id: Int
+}
+
+data class Search(
+    val query:String,
+    val result: ArrayList<String>
+) : StitchBson {
+    override fun doc(): Document? {
+        return Document()
+            .append("query", query)
+            .append("result", result)
+    }
+}
+
+
