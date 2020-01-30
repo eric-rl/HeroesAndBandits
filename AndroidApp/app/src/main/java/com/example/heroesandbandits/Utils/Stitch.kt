@@ -6,7 +6,6 @@ import android.util.Log.e
 import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.Models.MarvelId
 import com.example.heroesandbandits.Models.Search
-import com.example.heroesandbandits.Models.StitchBson
 import com.google.android.gms.tasks.Task
 import com.mongodb.stitch.android.core.Stitch
 import com.mongodb.stitch.android.core.StitchAppClient
@@ -16,20 +15,22 @@ import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase
 import com.mongodb.stitch.core.auth.providers.userpassword.UserPasswordCredential
+import com.mongodb.stitch.core.services.mongodb.remote.RemoteInsertManyResult
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult
 import org.bson.Document
 
 
 object StitchCon {
-    class UserData(data: Document){
-        val _id:String
-        val id:String
-        var favourites:Document
-        var characters:ArrayList<*>
+    class UserData(data: Document) {
+        val _id: String
+        val id: String
+        var favourites: Document
+        var characters: ArrayList<*>
+
         init {
             _id = data["_id"].toString()
             id = data["id"].toString()
-            favourites =  data["favourites"] as Document
+            favourites = data["favourites"] as Document
             characters = favourites["characters"] as ArrayList<*>
         }
     }
@@ -42,7 +43,7 @@ object StitchCon {
     private var searchCollection: RemoteMongoCollection<Document>? = null
     private var characterCollection: RemoteMongoCollection<Document>? = null
     private var userFilter: Document? = null
-    var userData:UserData? = null
+    var userData: UserData? = null
 
 
     init {
@@ -103,7 +104,7 @@ object StitchCon {
     }
 
     fun initUser() {
-        userFilter =  Document().append("id", client?.auth?.user?.id)
+        userFilter = Document().append("id", client?.auth?.user?.id)
         db!!.getCollection("user_data").findOne(userFilter).addOnCompleteListener {
             if (it.isSuccessful) {
                 userData = UserData(it.result)
@@ -114,28 +115,29 @@ object StitchCon {
         }
     }
 
-    fun addSearch(query:String, result: Array<Character>){
-        
-//        var t = Search(query, result.map { character -> character.doc() } as ArrayList<Document>)
-//        searchCollection?.insertOne(Document().append("search", t.doc()))?.addOnCompleteListener {
-//            if(it.isSuccessful){
-//                d("___", "id: ${it.result.insertedId}")
-//            } else {
-//                e("___","error when adding search!!! : ${it.exception}")
-//            }
-//        }
-    }
-
-    fun addCharacter(characters: Array<Character>){
-        characterCollection?.insertMany(characters.map { character -> character.doc() }
-        )?.addOnCompleteListener {
-            if(it.isSuccessful){
-                it.result.insertedIds.values.forEach {
-                    d("___", "INSERT CHARACTER-id: $it")
+    fun addSearch(query: String, result: Array<Character>) {
+        addCharacters(result)?.addOnCompleteListener {
+            if (it.isSuccessful) {
+                var a = it.result.insertedIds.values.map { id ->
+                    id.asObjectId()
                 }
-            } else {
-                e("___","error when adding search!!! : ${it.exception}")
+                searchCollection?.insertOne(
+                    Document()
+                        .append("query", query)
+                        .append("result", a)
+                )
+                    ?.addOnCompleteListener { addedSearch ->
+                        if (addedSearch.isSuccessful) {
+                            d("___", "id: ${addedSearch.result.insertedId}")
+                        } else {
+                            e("___", "error when adding search!!! : ${it.exception}")
+                        }
+                    }
             }
         }
+    }
+
+    fun addCharacters(characters: Array<Character>): Task<RemoteInsertManyResult>? {
+        return characterCollection?.insertMany(characters.map { character -> character.doc() })
     }
 }

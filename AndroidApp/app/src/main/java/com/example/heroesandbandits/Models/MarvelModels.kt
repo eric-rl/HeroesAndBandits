@@ -4,6 +4,7 @@ import com.google.gson.JsonObject
 import org.bson.BSONObject
 import org.bson.BsonDocument
 import org.bson.Document
+import org.bson.conversions.Bson
 
 data class CharacterDataWrapper(    // val copyright: String, // optional): The copyright notice for the returned result.,
     // val attributionText: String, // optional): The attribution notice for this result. Please display either this notice or the contents of the attributionHTML field on all screens which contain data from the Marvel Comics API.,
@@ -45,8 +46,10 @@ data class Character(
             .append("name", name)
             .append("description", description)
             .append("id", id)
-            .append("thumbnail", thumbnail)
-            .append("urls", urls)
+            .append("thumbnail", thumbnail.doc())
+            .append("urls", urls?.map {
+                Document.parse(it.toString())
+            })
     }
 }
 
@@ -54,7 +57,13 @@ data class Character(
 data class ImageModel(
     var path: String,
     var extension: String
-)
+) : StitchBson {
+    override fun doc(): Document? {
+        return Document()
+            .append("path", path)
+            .append("extension", extension)
+    }
+}
 
 data class SeriesDataWrapper(
     val code: Int,
@@ -76,13 +85,15 @@ data class Series(
 interface StitchBson {
     fun doc():Document?
 }
+
+
 interface MarvelId{
     val id: Int
 }
 
 data class Search(
     val query:String,
-    val result: ArrayList<Document>
+    val result: ArrayList<String>
 ) : StitchBson {
     override fun doc(): Document? {
         return Document()
