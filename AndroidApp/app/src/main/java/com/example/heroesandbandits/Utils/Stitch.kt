@@ -23,12 +23,12 @@ object StitchCon {
         val _id:String
         val id:String
         var favourites:Document
-        var characters:ArrayList<*>
+        var characters:MutableList<Any>
         init {
             _id = data["_id"].toString()
             id = data["id"].toString()
             favourites =  data["favourites"] as Document
-            characters = favourites["characters"] as ArrayList<*>
+            characters = favourites["characters"] as MutableList<Any>
         }
     }
 
@@ -77,6 +77,7 @@ object StitchCon {
             "\$addToSet",
             Document().append("favourites.characters", item.id)
         )
+        userData?.characters?.add(item.id)
 //        val optionsDoc = RemoteUpdateOptions().upsert(true)
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }
