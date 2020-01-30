@@ -2,6 +2,10 @@ package com.example.heroesandbandits.Utils
 
 import android.util.Log
 import android.util.Log.d
+import android.util.Log.e
+import com.example.heroesandbandits.Models.Character
+import com.example.heroesandbandits.Models.MarvelId
+import com.example.heroesandbandits.Models.Search
 import com.example.heroesandbandits.Models.StitchBson
 import com.google.android.gms.tasks.Task
 import com.mongodb.stitch.android.core.Stitch
@@ -12,8 +16,6 @@ import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase
 import com.mongodb.stitch.core.auth.providers.userpassword.UserPasswordCredential
-import com.mongodb.stitch.core.services.mongodb.remote.RemoteFindOptions
-import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateOptions
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult
 import org.bson.Document
 
@@ -37,9 +39,9 @@ object StitchCon {
     private var emailPassClient: UserPasswordAuthProviderClient? = null
     private var db: RemoteMongoDatabase? = null
     private var userDataCollection: RemoteMongoCollection<Document>? = null
+    private var searchCollection: RemoteMongoCollection<Document>? = null
+    private var characterCollection: RemoteMongoCollection<Document>? = null
     private var userFilter: Document? = null
-
-//    var user: User? = null
     var userData:UserData? = null
 
 
@@ -53,6 +55,8 @@ object StitchCon {
                 .getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
                 .getDatabase("db")
             userDataCollection = db!!.getCollection("user_data")
+            searchCollection = db!!.getCollection("searches")
+            characterCollection = db!!.getCollection("characters")
         }
     }
 
@@ -60,7 +64,6 @@ object StitchCon {
         return emailPassClient?.registerWithEmail(user, pass)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-
                     Log.d("___", "Successfully sent account confirmation email")
                 } else {
                     Log.e(
@@ -72,7 +75,7 @@ object StitchCon {
             }
     }
 
-    fun addToFavourites(item: StitchBson): Task<RemoteUpdateResult>? {
+    fun addToFavourites(item: MarvelId): Task<RemoteUpdateResult>? {
         val updateDoc = Document().append(
             "\$addToSet",
             Document().append("favourites.characters", item.id)
@@ -81,7 +84,7 @@ object StitchCon {
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }
 
-    fun removeFromFavourites(item: StitchBson): Task<RemoteUpdateResult>? {
+    fun removeFromFavourites(item: MarvelId): Task<RemoteUpdateResult>? {
         val updateDoc = Document().append(
             "\$pull",
             Document().append("favourites.characters", item.id)
@@ -105,9 +108,31 @@ object StitchCon {
             if (it.isSuccessful) {
                 userData = UserData(it.result)
                 d("___", "id: ${userData?.id}  -  size: ${userData?.characters?.size}")
-
             } else {
                 Log.e("___USER", "Error getting user_data", it.exception)
+            }
+        }
+    }
+
+    fun addSearch(query:String, result: Array<Character>){
+        var t = Search(query, result.map { character -> character.doc() } as ArrayList<Document>)
+        searchCollection?.insertOne(Document().append("search", t.doc()))?.addOnCompleteListener {
+            if(it.isSuccessful){
+                d("___", "id: ${it.result.insertedId}")
+            } else {
+                e("___","error when adding search!!! : ${it.exception}")
+            }
+        }
+    }
+
+    fun addCharacter(characters: Array<Character>){
+        characterCollection?.insertMany(        characters.map { character -> character.doc() }
+        )?.addOnCompleteListener {
+            if(it.isSuccessful){
+//                it.result.insertedIds
+                d("___", "id: ${it.result}")
+            } else {
+                e("___","error when adding search!!! : ${it.exception}")
             }
         }
     }

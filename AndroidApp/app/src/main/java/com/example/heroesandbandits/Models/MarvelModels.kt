@@ -39,7 +39,7 @@ data class Character(
     override val id: Int, //, optional): The unique ID of the character resource.,
     val thumbnail: ImageModel, //, optional): The representative image for this character.,
     val urls: Array<JsonObject>?
-):StitchBson {
+):StitchBson, MarvelId {
     override fun doc(): Document? {
         return Document()
             .append("name", name)
@@ -74,11 +74,21 @@ data class Series(
 )
 
 interface StitchBson {
-    val id: Int
     fun doc():Document?
 }
+interface MarvelId{
+    val id: Int
+}
 
-data class User(
-    val id: String,
-    val characters: ArrayList<Document>
-)
+data class Search(
+    val query:String,
+    val result: ArrayList<Document>
+) : StitchBson {
+    override fun doc(): Document? {
+        return Document()
+            .append("query", query)
+            .append("result", result)
+    }
+}
+
+

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.MarvelRetrofit
+import com.example.heroesandbandits.Utils.StitchCon
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -45,11 +46,8 @@ class SearchFragment : Fragment() {
     }
 
     private fun displaySearchResult() {
-
         val toBeDisposed: Disposable
-
         if (sharedViewModel.searchForHeroes) {
-
             toBeDisposed =
                 MarvelRetrofit.marvelService.searchForCharacter(view!!.search_input.text.toString())
                     .subscribeOn(Schedulers.newThread())
@@ -63,9 +61,11 @@ class SearchFragment : Fragment() {
                             } else {
                                 sharedViewModel.searchResultsCharacter.clear()
                                 sharedViewModel.searchResultsCharacter.addAll(result.data.results)
+
+                                StitchCon.addSearch(view!!.search_input.text.toString(), result.data.results)
+
                                 replaceFragment(SearchResultFragment.newInstance())
                             }
-
                         }
                     }
         } else {

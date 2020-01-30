@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
     fun login(email: String, password: String) {
         StitchCon.login(email, password)?.addOnCompleteListener {
             if (it.isSuccessful) {
+                it.result.id
                 Toast.makeText(
                     this,
                     "Successfully logged in as user " + it.result.id, Toast.LENGTH_LONG
