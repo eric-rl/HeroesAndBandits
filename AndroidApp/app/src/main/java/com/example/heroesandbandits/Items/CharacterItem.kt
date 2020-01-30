@@ -1,6 +1,7 @@
 package com.example.heroesandbandits.Items
 
 import android.util.Log
+import android.util.Log.d
 import android.widget.CheckBox
 import android.widget.Toast
 import com.example.heroesandbandits.Models.Character
@@ -27,12 +28,11 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 //        if(favouriteChecked != null){
 //            favoriteButton.isChecked = true
 //        }
-
-                val favouriteChecked = StitchCon.userData?.characters!!.find {
-            it as Int == character.id}
-        if(favouriteChecked != null){
-            favoriteButton.isChecked = true
+        val favouriteChecked = StitchCon.userData?.characters!!.find {
+            it == character.id
         }
+
+        favoriteButton.isChecked = favouriteChecked != null
 
         var path = character.thumbnail.path
         path = path.substring(0, 4) + "s" + path.substring(4, path.length)

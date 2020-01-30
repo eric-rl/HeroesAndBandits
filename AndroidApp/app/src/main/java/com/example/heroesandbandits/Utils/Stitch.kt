@@ -11,13 +11,19 @@ import com.mongodb.stitch.android.core.Stitch
 import com.mongodb.stitch.android.core.StitchAppClient
 import com.mongodb.stitch.android.core.auth.StitchUser
 import com.mongodb.stitch.android.core.auth.providers.userpassword.UserPasswordAuthProviderClient
+import com.mongodb.stitch.android.services.mongodb.remote.AsyncChangeStream
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase
 import com.mongodb.stitch.core.auth.providers.userpassword.UserPasswordCredential
+import com.mongodb.stitch.core.services.mongodb.remote.ChangeEvent
+import com.mongodb.stitch.core.services.mongodb.remote.RemoteFindOptions
+import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateOptions
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteInsertManyResult
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult
 import org.bson.Document
+import kotlin.concurrent.timerTask
+import org.bson.BsonValue
 
 
 object StitchCon {
@@ -59,7 +65,15 @@ object StitchCon {
             searchCollection = db!!.getCollection("searches")
             characterCollection = db!!.getCollection("characters")
         }
+
+        userDataCollection?.watch()?.addOnCompleteListener { task ->
+            val changeStream = task.result
+            changeStream.addChangeEventListener { documentId: BsonValue, event: ChangeEvent<Document> ->
+                d("watcher", "${task.result}")
+            }
+        }
     }
+
 
     fun registerUser(user: String, pass: String): Task<Void>? {
         return emailPassClient?.registerWithEmail(user, pass)
@@ -81,6 +95,7 @@ object StitchCon {
             "\$addToSet",
             Document().append("favourites.characters", item.id)
         )
+        userData?.characters?.add(item.id)
 //        val optionsDoc = RemoteUpdateOptions().upsert(true)
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }
@@ -103,13 +118,40 @@ object StitchCon {
         return client?.auth?.loginWithCredential(credential)
     }
 
+    fun firstTimeLogin() {
+        userFilter = Document().append("id", client?.auth?.user?.id)
+        db!!.getCollection("user_data").findOne(userFilter).addOnCompleteListener {
+            if (it.isSuccessful && it.result != null) {
+                userData = UserData(it.result)
+                d("___", "id: ${userData?.id}  -  size: ${userData?.characters?.size}")
+
+            }
+        }
+    }
+
     fun initUser() {
         userFilter = Document().append("id", client?.auth?.user?.id)
         db!!.getCollection("user_data").findOne(userFilter).addOnCompleteListener {
-            if (it.isSuccessful) {
+            if (it.isSuccessful && it.result != null) {
                 userData = UserData(it.result)
                 d("___", "id: ${userData?.id}  -  size: ${userData?.characters?.size}")
             } else {
+
+                userDataCollection?.insertOne(
+                    Document()
+                        .append("id", client?.auth?.user?.id)
+                        .append(
+                            "favourites", Document().append("characters", arrayListOf<Any>())
+                                .append("series", arrayListOf<Any>())
+                        )
+                )
+                    ?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            firstTimeLogin()
+                        } else {
+
+                        }
+                    }
                 Log.e("___USER", "Error getting user_data", it.exception)
             }
         }
