@@ -31,11 +31,8 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
         val favouriteChecked = StitchCon.userData?.characters!!.find {
             it == character.id
         }
-        if (favouriteChecked != null) {
-            favoriteButton.isChecked = true
-        } else {
-            favoriteButton.isChecked = false
-        }
+
+        favoriteButton.isChecked = favouriteChecked != null
 
         var path = character.thumbnail.path
         path = path.substring(0, 4) + "s" + path.substring(4, path.length)

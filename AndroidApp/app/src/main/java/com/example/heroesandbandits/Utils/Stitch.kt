@@ -2,32 +2,38 @@ package com.example.heroesandbandits.Utils
 
 import android.util.Log
 import android.util.Log.d
+import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.Models.StitchBson
 import com.google.android.gms.tasks.Task
 import com.mongodb.stitch.android.core.Stitch
 import com.mongodb.stitch.android.core.StitchAppClient
 import com.mongodb.stitch.android.core.auth.StitchUser
 import com.mongodb.stitch.android.core.auth.providers.userpassword.UserPasswordAuthProviderClient
+import com.mongodb.stitch.android.services.mongodb.remote.AsyncChangeStream
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase
 import com.mongodb.stitch.core.auth.providers.userpassword.UserPasswordCredential
+import com.mongodb.stitch.core.services.mongodb.remote.ChangeEvent
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteFindOptions
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateOptions
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult
 import org.bson.Document
+import kotlin.concurrent.timerTask
+import org.bson.BsonValue
 
 
 object StitchCon {
-    class UserData(data: Document){
-        val _id:String
-        val id:String
-        var favourites:Document
-        var characters:MutableList<Any>
+    class UserData(data: Document) {
+        val _id: String
+        val id: String
+        var favourites: Document
+        var characters: MutableList<Any>
+
         init {
             _id = data["_id"].toString()
             id = data["id"].toString()
-            favourites =  data["favourites"] as Document
+            favourites = data["favourites"] as Document
             characters = favourites["characters"] as MutableList<Any>
         }
     }
@@ -39,8 +45,8 @@ object StitchCon {
     private var userDataCollection: RemoteMongoCollection<Document>? = null
     private var userFilter: Document? = null
 
-//    var user: User? = null
-    var userData:UserData? = null
+    //    var user: User? = null
+    var userData: UserData? = null
 
 
     init {
@@ -54,7 +60,15 @@ object StitchCon {
                 .getDatabase("db")
             userDataCollection = db!!.getCollection("user_data")
         }
+
+        userDataCollection?.watch()?.addOnCompleteListener { task ->
+            val changeStream = task.result
+            changeStream.addChangeEventListener { documentId: BsonValue, event: ChangeEvent<Document> ->
+                d("watcher", "${task.result}")
+            }
+        }
     }
+
 
     fun registerUser(user: String, pass: String): Task<Void>? {
         return emailPassClient?.registerWithEmail(user, pass)
@@ -100,14 +114,41 @@ object StitchCon {
         return client?.auth?.loginWithCredential(credential)
     }
 
-    fun initUser() {
-        userFilter =  Document().append("id", client?.auth?.user?.id)
+    fun firstTimeLogin() {
+        userFilter = Document().append("id", client?.auth?.user?.id)
         db!!.getCollection("user_data").findOne(userFilter).addOnCompleteListener {
-            if (it.isSuccessful) {
+            if (it.isSuccessful && it.result != null) {
+                userData = UserData(it.result)
+                d("___", "id: ${userData?.id}  -  size: ${userData?.characters?.size}")
+
+            }
+        }
+    }
+
+    fun initUser() {
+        userFilter = Document().append("id", client?.auth?.user?.id)
+        db!!.getCollection("user_data").findOne(userFilter).addOnCompleteListener {
+            if (it.isSuccessful && it.result != null) {
                 userData = UserData(it.result)
                 d("___", "id: ${userData?.id}  -  size: ${userData?.characters?.size}")
 
             } else {
+
+                userDataCollection?.insertOne(
+                    Document()
+                        .append("id", client?.auth?.user?.id)
+                        .append(
+                            "favourites", Document().append("characters", arrayListOf<Any>())
+                                .append("series", arrayListOf<Any>())
+                        )
+                )
+                    ?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            firstTimeLogin()
+                        } else {
+
+                        }
+                    }
                 Log.e("___USER", "Error getting user_data", it.exception)
             }
         }
