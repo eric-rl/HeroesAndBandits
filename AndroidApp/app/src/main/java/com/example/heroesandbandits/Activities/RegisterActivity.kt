@@ -20,7 +20,6 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         already_have_account_text_view.setOnClickListener {
-            Log.d("__RegisterActivity", "Try to show login activity")
             // launch the login activity
             startActivity(Intent(this, LoginActivity::class.java))
         }
@@ -37,8 +36,6 @@ class RegisterActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))
             } else {
                 Log.d("___RegisterActivity", "ERROR: ${task.exception}")
-                Log.d("___RegisterActivity", "Email is: $email")
-                Log.d("___RegisterActivity", "Password: $password")
             }
         }
     }

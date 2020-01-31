@@ -40,8 +40,7 @@ class RegisterActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))
             } else {
                 Log.d("___RegisterActivity", "ERROR: ${task.exception}")
-                Log.d("___RegisterActivity", "Email is: $email")
-                Log.d("___RegisterActivity", "Password: $password")
+
             }
         }
     }

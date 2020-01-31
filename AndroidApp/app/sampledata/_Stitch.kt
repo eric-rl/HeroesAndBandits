@@ -36,7 +36,6 @@ object StitchCon {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
 
-                    Log.d("___", "Successfully sent account confirmation email")
                 } else {
                     Log.e(
                         "___",

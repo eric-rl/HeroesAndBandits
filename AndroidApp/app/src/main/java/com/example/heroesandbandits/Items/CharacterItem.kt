@@ -45,10 +45,8 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
         favoriteButton.setOnClickListener {
             if (favoriteButton.isChecked) {
-                Log.d("___favorite", "${character.name} ${favoriteButton.isChecked}")
                 StitchCon.addToFavourites(character)?.addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Log.d("___", "adding to favourites to favourites, insertId: $it)}");
                         Toast.makeText(
                             MyApplication.context,
                             "Successfully added to favourites, insertId: ${it}", Toast.LENGTH_LONG
@@ -61,7 +59,6 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
             } else {
                 StitchCon.removeFromFavourites(character)?.addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Log.d("___", "removed from favourites, insertId: ${it.result}");
                         Toast.makeText(
                             MyApplication.context,
                             "Successfully removed from favourites, insertId: ${it}",
@@ -71,7 +68,6 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                         Log.e("___", "Error removing from favourites", it.exception);
 
                     }
-                    Log.d("___favorite", "${favoriteButton.isChecked}")
                 }
             }
         }

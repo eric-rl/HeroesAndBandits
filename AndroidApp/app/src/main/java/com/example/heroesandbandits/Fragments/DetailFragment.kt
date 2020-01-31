@@ -89,8 +89,6 @@ class DetailFragment : Fragment() {
             .into(details_image)
         details_name.text = sharedViewModel.clickedItem?.name
         details_description.text = sharedViewModel.clickedItem?.description
-        Log.d("huehuehue", "${sharedViewModel.clickedItem}")
-
     }
 
     private fun displaySerie() {
