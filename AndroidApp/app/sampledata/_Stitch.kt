@@ -62,7 +62,7 @@ object StitchCon {
                     Log.d("___", "user: ${user?.id + " " + user?.isLoggedIn}")
 
                 } else {
-                    Log.e("___", "failed to log in anonymously", it.exception);
+                    Log.e("___", "failed to log in anonymously", it.exception)
                 }
             }
     }

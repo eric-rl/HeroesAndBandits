@@ -52,7 +52,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                             "Successfully added to favourites", Toast.LENGTH_LONG
                         ).show()
                     } else {
-                        Log.e("___", "Error adding to favourites", it.exception);
+                        Log.e("___", "Error adding to favourites", it.exception)
 
                     }
                 }
@@ -65,7 +65,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                             Toast.LENGTH_LONG
                         ).show()
                     } else {
-                        Log.e("___", "Error removing from favourites", it.exception);
+                        Log.e("___", "Error removing from favourites", it.exception)
 
                     }
                 }

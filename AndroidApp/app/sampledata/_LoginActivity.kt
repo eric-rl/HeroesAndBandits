@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
                 ).show()
                 d("___", "Successfully logged in as user " + it.result.id)
             } else {
-                Log.e("___", "Error logging in with email/password auth:", it.exception);
+                Log.e("___", "Error logging in with email/password auth:", it.exception)
             }
         }
     }
