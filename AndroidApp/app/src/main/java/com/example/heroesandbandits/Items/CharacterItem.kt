@@ -61,7 +61,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                     if (it.isSuccessful) {
                         Toast.makeText(
                             MyApplication.context,
-                            "Successfully removed from favourites, insertId: ${it}",
+                            "Successfully removed from favourites",
                             Toast.LENGTH_LONG
                         ).show()
                     } else {
