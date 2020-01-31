@@ -31,12 +31,14 @@ object StitchCon {
         val id: String
         var favourites: Document
         var characters: MutableList<Any>
+        var series: MutableList<Any>
 
         init {
             _id = data["_id"].toString()
             id = data["id"].toString()
             favourites = data["favourites"] as Document
             characters = favourites["characters"] as ArrayList<Any>
+            series = favourites["series"] as ArrayList<Any>
         }
     }
 
@@ -95,10 +97,27 @@ object StitchCon {
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }
 
+    fun addSeriesToFavourites(item: MarvelId): Task<RemoteUpdateResult>? {
+        val updateDoc = Document().append(
+            "\$addToSet",
+            Document().append("favourites.series", item.id))
+
+        return userDataCollection?.updateOne(userFilter, updateDoc)
+
+    }
+
     fun removeFromFavourites(item: MarvelId): Task<RemoteUpdateResult>? {
         val updateDoc = Document().append(
             "\$pull",
             Document().append("favourites.characters", item.id)
+        )
+        return userDataCollection?.updateOne(userFilter, updateDoc)
+    }
+
+    fun removeSeriesFromFavourite(item: MarvelId): Task<RemoteUpdateResult>?{
+        val updateDoc = Document().append(
+            "\$pull",
+            Document().append("favourites.series", item.id)
         )
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }

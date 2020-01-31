@@ -2,6 +2,7 @@ package com.example.heroesandbandits.Fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,6 +77,7 @@ class SearchFragment : Fragment() {
                             if (result.data.results.isEmpty()) {
                                 replaceFragment(SearchNoResultFragment.newInstance())
                             } else {
+                                d("___", "${result.data}")
                                 sharedViewModel.searchResultsSeries.clear()
                                 sharedViewModel.searchResultsSeries.addAll(result.data.results)
                                 replaceFragment(SeriesSearchResultFragment.newInstance())
