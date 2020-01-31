@@ -28,7 +28,7 @@ class SearchResultFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_search_result, container, false)
         val adapter = createRecyclerView()
 
-        view.recyclerViewTest.adapter = adapter
+        view.recyclerViewSearchResult.adapter = adapter
 
 
         return view

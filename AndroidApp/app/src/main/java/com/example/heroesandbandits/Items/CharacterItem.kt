@@ -1,8 +1,6 @@
 package com.example.heroesandbandits.Items
 
 import android.util.Log
-import android.util.Log.d
-import android.widget.CheckBox
 import android.widget.Toast
 import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.MyApplication
@@ -11,13 +9,13 @@ import com.example.heroesandbandits.Utils.StitchCon
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import kotlinx.android.synthetic.main.fragment_search_character.view.*
+import kotlinx.android.synthetic.main.fragment_search_item.view.*
 
 class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
 
     override fun getLayout(): Int {
-        return R.layout.fragment_search_character
+        return R.layout.fragment_search_item
     }
 
 

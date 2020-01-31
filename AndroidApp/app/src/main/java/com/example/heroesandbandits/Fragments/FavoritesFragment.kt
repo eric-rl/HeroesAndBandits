@@ -16,6 +16,7 @@ import com.example.heroesandbandits.Utils.StitchCon
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import kotlinx.android.synthetic.main.fragment_favourites_result.view.*
 import kotlinx.android.synthetic.main.fragment_search_result.view.*
 
 class FavoritesFragment: Fragment() {
@@ -30,7 +31,7 @@ class FavoritesFragment: Fragment() {
         sharedViewModel = activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val view = inflater.inflate(R.layout.fragment_favorites, container, false)
         val adapter = createRecyclerView()
-        view.recyclerViewTest.adapter = adapter
+        view.recyclerViewFavouritesResult?.adapter = adapter
         return view
     }
 //        inflater.inflate(R.layout.fragment_favorites, container, false)
@@ -49,9 +50,6 @@ class FavoritesFragment: Fragment() {
         val adapter = GroupAdapter<GroupieViewHolder>()
 
 
-        for(char in sharedViewModel.searchResultsCharacter){
-            adapter.add(CharacterItem(Character(char.name, char.description, char.id, char.thumbnail, char.urls)))
-        }
 
 //        adapter.setOnItemClickListener { item, _ ->
 //            val char = item as CharacterItem
