@@ -30,13 +30,13 @@ object StitchCon {
         val _id: String
         val id: String
         var favourites: Document
-        var characters: ArrayList<*>
+        var characters: MutableList<Any>
 
         init {
             _id = data["_id"].toString()
             id = data["id"].toString()
             favourites = data["favourites"] as Document
-            characters = favourites["characters"] as ArrayList<*>
+            characters = favourites["characters"] as ArrayList<Any>
         }
     }
 
@@ -103,11 +103,6 @@ object StitchCon {
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }
 
-//    fun getFavourites(): Task<Document>? {
-//        val proj = Document().append("characters", 1)
-//        return userDataCollection?.findOne(userFilter, RemoteFindOptions().projection(proj))
-//    }
-
     fun login(email: String, password: String): Task<StitchUser>? {
         val credential = UserPasswordCredential(email, password)
         return client?.auth?.loginWithCredential(credential)
@@ -136,7 +131,8 @@ object StitchCon {
                     Document()
                         .append("id", client?.auth?.user?.id)
                         .append(
-                            "favourites", Document().append("characters", arrayListOf<Any>())
+                            "favourites", Document()
+                                .append("characters", arrayListOf<Any>())
                                 .append("series", arrayListOf<Any>())
                         )
                 )

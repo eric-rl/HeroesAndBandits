@@ -23,11 +23,6 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         val favoriteButton = viewHolder.itemView.favorite_button
-//        val favouriteChecked = StitchCon.user?.characters!!.find {
-//            it["char_id"] == character.id}
-//        if(favouriteChecked != null){
-//            favoriteButton.isChecked = true
-//        }
         val favouriteChecked = StitchCon.userData?.characters!!.find {
             it == character.id
         }
@@ -48,6 +43,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                 Log.d("___favorite", "${character.name} ${favoriteButton.isChecked}")
                 StitchCon.addToFavourites(character)?.addOnCompleteListener {
                     if (it.isSuccessful) {
+                        StitchCon.userData!!.characters.add(character.id)
                         Log.d("___", "adding to favourites to favourites, insertId: $it)}");
                         Toast.makeText(
                             MyApplication.context,
@@ -61,7 +57,8 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
             } else {
                 StitchCon.removeFromFavourites(character)?.addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Log.d("___", "removed from favourites, insertId: ${it.result}");
+                        Log.d("___", "removed from favourites, insertId: ${it.result}")
+                        StitchCon.userData!!.characters.remove(character.id)
                         Toast.makeText(
                             MyApplication.context,
                             "Successfully removed from favourites, insertId: ${it}",
