@@ -7,7 +7,6 @@ import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.Models.MarvelId
 import com.example.heroesandbandits.Models.Search
 import com.google.android.gms.tasks.Task
-import com.mongodb.client.model.UpdateOptions
 import com.mongodb.stitch.android.core.Stitch
 import com.mongodb.stitch.android.core.StitchAppClient
 import com.mongodb.stitch.android.core.auth.StitchUser
@@ -181,10 +180,6 @@ object StitchCon {
     }
 
     fun addCharacters(characters: Array<Character>): Task<RemoteInsertManyResult>? {
-        val options = RemoteUpdateOptions()
-        options.upsert(true)
-        characters.map { character -> characterCollection?.updateOne(Document().append("name", character.name), character.doc(), options) }
-//        return characterCollection?.insertMany(characters.map { character -> character.doc() })
-        return null
+        return characterCollection?.insertMany(characters.map { character -> character.doc() })
     }
 }
