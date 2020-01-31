@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
             if (it.isSuccessful) {
                 Toast.makeText(
                     this,
-                    "Successfully logged in as user " + it.result.id, Toast.LENGTH_LONG
+                    "Success", Toast.LENGTH_LONG
                 ).show()
                 d("___", "Successfully logged in as user " + it.result.id)
                 StitchCon.initUser()

@@ -49,7 +49,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                     if (it.isSuccessful) {
                         Toast.makeText(
                             MyApplication.context,
-                            "Successfully added to favourites, insertId: ${it}", Toast.LENGTH_LONG
+                            "Successfully added to favourites", Toast.LENGTH_LONG
                         ).show()
                     } else {
                         Log.e("___", "Error adding to favourites", it.exception);
