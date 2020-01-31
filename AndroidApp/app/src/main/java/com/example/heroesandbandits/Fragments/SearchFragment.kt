@@ -61,9 +61,6 @@ class SearchFragment : Fragment() {
                             } else {
                                 sharedViewModel.searchResultsCharacter.clear()
                                 sharedViewModel.searchResultsCharacter.addAll(result.data.results)
-
-                                StitchCon.addSearch(view!!.search_input.text.toString(), result.data.results)
-
                                 replaceFragment(SearchResultFragment.newInstance())
                             }
                         }

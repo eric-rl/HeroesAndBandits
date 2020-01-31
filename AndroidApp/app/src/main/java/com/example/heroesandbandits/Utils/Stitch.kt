@@ -5,7 +5,6 @@ import android.util.Log.d
 import android.util.Log.e
 import com.example.heroesandbandits.Models.Character
 import com.example.heroesandbandits.Models.MarvelId
-import com.example.heroesandbandits.Models.Search
 import com.google.android.gms.tasks.Task
 import com.mongodb.stitch.android.core.Stitch
 import com.mongodb.stitch.android.core.StitchAppClient
@@ -46,8 +45,6 @@ object StitchCon {
     private var emailPassClient: UserPasswordAuthProviderClient? = null
     private var db: RemoteMongoDatabase? = null
     private var userDataCollection: RemoteMongoCollection<Document>? = null
-    private var searchCollection: RemoteMongoCollection<Document>? = null
-    private var characterCollection: RemoteMongoCollection<Document>? = null
     private var userFilter: Document? = null
     var userData: UserData? = null
 
@@ -62,8 +59,6 @@ object StitchCon {
                 .getServiceClient(RemoteMongoClient.factory, "mongodb-atlas")
                 .getDatabase("db")
             userDataCollection = db!!.getCollection("user_data")
-            searchCollection = db!!.getCollection("searches")
-            characterCollection = db!!.getCollection("characters")
         }
 
         userDataCollection?.watch()?.addOnCompleteListener { task ->
@@ -155,31 +150,5 @@ object StitchCon {
                 Log.e("___USER", "Error getting user_data", it.exception)
             }
         }
-    }
-
-    fun addSearch(query: String, result: Array<Character>) {
-        addCharacters(result)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                var a = it.result.insertedIds.values.map { id ->
-                    id.asObjectId()
-                }
-                searchCollection?.insertOne(
-                    Document()
-                        .append("query", query)
-                        .append("result", a)
-                )
-                    ?.addOnCompleteListener { addedSearch ->
-                        if (addedSearch.isSuccessful) {
-                            d("___", "id: ${addedSearch.result.insertedId}")
-                        } else {
-                            e("___", "error when adding search!!! : ${it.exception}")
-                        }
-                    }
-            }
-        }
-    }
-
-    fun addCharacters(characters: Array<Character>): Task<RemoteInsertManyResult>? {
-        return characterCollection?.insertMany(characters.map { character -> character.doc() })
     }
 }

@@ -40,30 +40,13 @@ data class Character(
     override val id: Int, //, optional): The unique ID of the character resource.,
     val thumbnail: ImageModel, //, optional): The representative image for this character.,
     val urls: Array<JsonObject>?
-):StitchBson, MarvelId {
-    override fun doc(): Document? {
-        return Document()
-            .append("name", name)
-            .append("description", description)
-            .append("id", id)
-            .append("thumbnail", thumbnail.doc())
-            .append("urls", urls?.map {
-                Document.parse(it.toString())
-            })
-    }
-}
+):MarvelId
 
 
 data class ImageModel(
     var path: String,
     var extension: String
-) : StitchBson {
-    override fun doc(): Document? {
-        return Document()
-            .append("path", path)
-            .append("extension", extension)
-    }
-}
+)
 
 data class SeriesDataWrapper(
     val code: Int,
@@ -75,31 +58,16 @@ data class SeriesDataContainer(
 )
 
 data class Series(
-    val id: Int,
+    override val id: Int,
     val title: String,
     val description: String?,
     val thumbnail: ImageModel,
     val urls: Array<JsonObject>
-)
-
-interface StitchBson {
-    fun doc():Document?
-}
-
+):MarvelId
 
 interface MarvelId{
     val id: Int
 }
 
-data class Search(
-    val query:String,
-    val result: ArrayList<String>
-) : StitchBson {
-    override fun doc(): Document? {
-        return Document()
-            .append("query", query)
-            .append("result", result)
-    }
-}
 
 
