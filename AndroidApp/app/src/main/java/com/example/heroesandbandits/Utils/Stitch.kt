@@ -2,26 +2,22 @@ package com.example.heroesandbandits.Utils
 
 import android.util.Log
 import android.util.Log.d
-import android.util.Log.e
 import com.example.heroesandbandits.Models.Character
+import com.example.heroesandbandits.Models.FavoriteSeries
 import com.example.heroesandbandits.Models.MarvelId
+import com.example.heroesandbandits.Models.Series
 import com.google.android.gms.tasks.Task
 import com.mongodb.stitch.android.core.Stitch
 import com.mongodb.stitch.android.core.StitchAppClient
 import com.mongodb.stitch.android.core.auth.StitchUser
 import com.mongodb.stitch.android.core.auth.providers.userpassword.UserPasswordAuthProviderClient
-import com.mongodb.stitch.android.services.mongodb.remote.AsyncChangeStream
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoClient
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoCollection
 import com.mongodb.stitch.android.services.mongodb.remote.RemoteMongoDatabase
 import com.mongodb.stitch.core.auth.providers.userpassword.UserPasswordCredential
 import com.mongodb.stitch.core.services.mongodb.remote.ChangeEvent
-import com.mongodb.stitch.core.services.mongodb.remote.RemoteFindOptions
-import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateOptions
-import com.mongodb.stitch.core.services.mongodb.remote.RemoteInsertManyResult
 import com.mongodb.stitch.core.services.mongodb.remote.RemoteUpdateResult
 import org.bson.Document
-import kotlin.concurrent.timerTask
 import org.bson.BsonValue
 
 
@@ -87,10 +83,13 @@ object StitchCon {
             }
     }
 
+    fun imageConverter(path: String, extention: String): String {
+        val path = path.substring(0, 4) + "s" + path.substring(4, path.length)
+        return "$path/standard_medium.$extention"
+    }
+
     fun addToFavourites(item: Character): Task<RemoteUpdateResult>? {
-        var path = item.thumbnail.path
-        path = path.substring(0, 4) + "s" + path.substring(4, path.length)
-        val imageUrl = path + "/standard_medium." + item.thumbnail.extension
+        val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
         val obj = Document()
         obj["thumbnail"] = imageUrl
         obj["name"] = item.name
@@ -104,29 +103,60 @@ object StitchCon {
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }
 
-    fun addSeriesToFavourites(item: MarvelId): Task<RemoteUpdateResult>? {
-        val updateDoc = Document().append(
+    fun addSeriesToFavourites(item: Any): Task<RemoteUpdateResult>? {
+        val updateDoc: Document
+        val obj = Document()
+        if (item is Series) {
+            val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
+            obj["thumbnail"] = imageUrl
+            obj["title"] = item.title
+            obj["id"] = item.id
+
+        } else if (item is FavoriteSeries) {
+            obj["thumbnail"] = item.thumbnail
+            obj["title"] = item.title
+            obj["id"] = item.id
+        }
+        updateDoc = Document().append(
             "\$addToSet",
-            Document().append("favourites.series", item.id))
-
+            Document().append("favourites.series", obj)
+        )
         return userDataCollection?.updateOne(userFilter, updateDoc)
 
     }
 
-    fun removeFromFavourites(item: MarvelId): Task<RemoteUpdateResult>? {
+    fun removeCharacterFromFavourites(item: Character): Task<RemoteUpdateResult>? {
+        val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
+        val obj = Document()
+        obj["thumbnail"] = imageUrl
+        obj["name"] = item.name
+        obj["id"] = item.id
         val updateDoc = Document().append(
             "\$pull",
-            Document().append("favourites.characters", item.id)
+            Document().append("favourites.characters", obj)
         )
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }
 
-    fun removeSeriesFromFavourite(item: MarvelId): Task<RemoteUpdateResult>?{
-        val updateDoc = Document().append(
+    fun removeSeriesFromFavourite(item: Any): Task<RemoteUpdateResult>? {
+        val updateDoc: Document
+        val obj = Document()
+        if (item is Series) {
+            val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
+            obj["thumbnail"] = imageUrl
+            obj["title"] = item.title
+            obj["id"] = item.id
+        } else if (item is FavoriteSeries) {
+            obj["thumbnail"] = item.thumbnail
+            obj["title"] = item.title
+            obj["id"] = item.id
+        }
+        updateDoc = Document().append(
             "\$pull",
-            Document().append("favourites.series", item.id)
+            Document().append("favourites.series", obj)
         )
         return userDataCollection?.updateOne(userFilter, updateDoc)
+
     }
 
     fun login(email: String, password: String): Task<StitchUser>? {

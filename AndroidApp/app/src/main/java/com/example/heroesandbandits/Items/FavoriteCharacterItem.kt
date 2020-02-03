@@ -11,7 +11,7 @@ import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_search_item.view.*
 import org.bson.Document
 
-class FavoriteItem(val character: FavoriteCharacter) : Item<GroupieViewHolder>() {
+class FavoriteCharacterItem(val character: FavoriteCharacter) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
         return R.layout.fragment_search_item
     }

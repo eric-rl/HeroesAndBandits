@@ -29,18 +29,19 @@ class FavoritesFragment: Fragment() {
         val v = inflater.inflate(R.layout.fragment_favorites, container, false)
 
 
+        replaceFragment(FavoritesCharacterResultFragment.newInstance())
         v.radio_group.setOnCheckedChangeListener { _, checkedId ->
             val radio: RadioButton = v.findViewById(checkedId)
             sharedViewModel.searchForHeroes = radio == v.heroesRadio
+            if(sharedViewModel.searchForHeroes){
+                replaceFragment(FavoritesCharacterResultFragment.newInstance())
+            } else{
+                replaceFragment(FavoritesSeriesResultFragment.newInstance())
+            }
         }
         return v
     }
 
-    private fun displayResult(){
-        val toBeDisposed: Disposable
-        // if den ena knappen är tryckt visa
-
-    }
 
     private fun replaceFragment(fragment: Fragment) {
         val transaction = activity!!.supportFragmentManager.beginTransaction()
@@ -56,7 +57,7 @@ class FavoritesFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         d("___", "Detta körs va?")
-        replaceFragment(FavoritesResultFragment.newInstance())
+
         super.onCreate(savedInstanceState)
     }
 

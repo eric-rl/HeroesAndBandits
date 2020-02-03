@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Items.CharacterItem
-import com.example.heroesandbandits.Items.FavoriteItem
+import com.example.heroesandbandits.Items.FavoriteCharacterItem
 import com.example.heroesandbandits.Models.FavoriteCharacter
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.StitchCon
@@ -18,7 +18,7 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_favourites_result.view.*
 import org.bson.Document
 
-class FavoritesResultFragment : Fragment() {
+class FavoritesCharacterResultFragment : Fragment() {
     private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
@@ -35,8 +35,8 @@ class FavoritesResultFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(): FavoritesResultFragment =
-            FavoritesResultFragment()
+        fun newInstance(): FavoritesCharacterResultFragment =
+            FavoritesCharacterResultFragment()
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -53,7 +53,7 @@ class FavoritesResultFragment : Fragment() {
             val item = char as Document
             d("___", "ett item: ${item["name"]}")
             adapter.add(
-                FavoriteItem(
+                FavoriteCharacterItem(
                     FavoriteCharacter(
                         item["name"] as String,
                         item["thumbnail"] as String,

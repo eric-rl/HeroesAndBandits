@@ -1,6 +1,5 @@
 package com.example.heroesandbandits.Items
 
-import android.provider.DocumentsContract
 import android.util.Log
 import android.widget.Toast
 import com.example.heroesandbandits.Models.Character
@@ -60,8 +59,12 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                     }
                 }
             } else {
-                StitchCon.removeFromFavourites(character)?.addOnCompleteListener {
+                StitchCon.removeCharacterFromFavourites(character)?.addOnCompleteListener {
                     if (it.isSuccessful) {
+                        StitchCon.userData!!.characters.remove(Document()
+                            .append("id", character.id)
+                            .append("thumbnail", imageUrl)
+                            .append("name", character.name))
                         Log.d("___", "removed from favourites, insertId: ${it.result}")
                         StitchCon.userData!!.characters.remove(character.id)
                         Toast.makeText(

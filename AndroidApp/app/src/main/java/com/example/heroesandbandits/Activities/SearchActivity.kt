@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.heroesandbandits.Fragments.FavoritesFragment
-import com.example.heroesandbandits.Fragments.FavoritesResultFragment
 import com.example.heroesandbandits.Fragments.SearchFragment
 import com.example.heroesandbandits.R
 import com.google.android.material.bottomnavigation.BottomNavigationView

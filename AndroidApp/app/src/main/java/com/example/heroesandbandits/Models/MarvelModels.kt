@@ -48,6 +48,12 @@ data class FavoriteCharacter(
     override var id: Int
 ):MarvelId
 
+data class FavoriteSeries(
+    var title: String,
+    var thumbnail: String,
+    override var id: Int
+):MarvelId
+
 
 data class ImageModel(
     var path: String,
