@@ -1,5 +1,6 @@
 package com.example.heroesandbandits.Items
 
+import android.provider.DocumentsContract
 import android.util.Log
 import android.widget.Toast
 import com.example.heroesandbandits.Models.Character
@@ -10,6 +11,7 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_search_item.view.*
+import org.bson.Document
 
 class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
@@ -41,8 +43,12 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                 Log.d("___favorite", "${character.name} ${favoriteButton.isChecked}")
                 StitchCon.addToFavourites(character)?.addOnCompleteListener {
                     if (it.isSuccessful) {
-                        StitchCon.userData!!.characters.add(character.id)
-                        Log.d("___", "adding to favourites to favourites, insertId: $it)}");
+                        StitchCon.userData!!.characters.add(Document()
+                            .append("id", character.id)
+                            .append("thumbnail", imageUrl)
+                            .append("name", character.name))
+                        Log.d("___", "adding to favourites to favourites, insertId: $it)}")
+                        Log.d("___", "updated list: ${StitchCon.userData?.favourites}")
                         Toast.makeText(
                             MyApplication.context,
                             "Successfully added to favourites, insertId: ${it}", Toast.LENGTH_LONG

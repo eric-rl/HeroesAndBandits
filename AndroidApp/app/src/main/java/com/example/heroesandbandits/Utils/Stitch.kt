@@ -87,10 +87,17 @@ object StitchCon {
             }
     }
 
-    fun addToFavourites(item: MarvelId): Task<RemoteUpdateResult>? {
+    fun addToFavourites(item: Character): Task<RemoteUpdateResult>? {
+        var path = item.thumbnail.path
+        path = path.substring(0, 4) + "s" + path.substring(4, path.length)
+        val imageUrl = path + "/standard_medium." + item.thumbnail.extension
+        val obj = Document()
+        obj["thumbnail"] = imageUrl
+        obj["name"] = item.name
+        obj["id"] = item.id
         val updateDoc = Document().append(
             "\$addToSet",
-            Document().append("favourites.characters", item.id)
+            Document().append("favourites.characters", obj)
         )
 //        userData?.characters?.add(item.id)
 //        val optionsDoc = RemoteUpdateOptions().upsert(true)
@@ -144,6 +151,8 @@ object StitchCon {
             if (it.isSuccessful && it.result != null) {
                 userData = UserData(it.result)
                 d("___", "id: ${userData?.id}  -  size: ${userData?.characters?.size}")
+                d("___", "favourites: ${userData?.favourites}")
+
             } else {
 
                 userDataCollection?.insertOne(

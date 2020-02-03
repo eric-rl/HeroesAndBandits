@@ -42,6 +42,12 @@ data class Character(
     val urls: Array<JsonObject>?
 ):MarvelId
 
+data class FavoriteCharacter(
+    var name: String,
+    var thumbnail: String,
+    override var id: Int
+):MarvelId
+
 
 data class ImageModel(
     var path: String,
