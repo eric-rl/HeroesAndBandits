@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_search_item.view.*
+import org.bson.Document
 
 class SeriesItem(val series: Series) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
@@ -29,7 +30,8 @@ class SeriesItem(val series: Series) : Item<GroupieViewHolder>() {
         val favoriteButton = viewHolder.itemView.favorite_button
 
         val favouriteChecked = StitchCon.userData?.series!!.find {
-            it == series.id
+            val item = it as Document
+            item["id"] == series.id
         }
 
         favoriteButton.isChecked = favouriteChecked != null

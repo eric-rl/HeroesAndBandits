@@ -9,6 +9,7 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
 import kotlinx.android.synthetic.main.fragment_search_item.view.*
+import org.bson.Document
 
 class FavoriteItem(val character: FavoriteCharacter) : Item<GroupieViewHolder>() {
     override fun getLayout(): Int {
@@ -17,12 +18,15 @@ class FavoriteItem(val character: FavoriteCharacter) : Item<GroupieViewHolder>()
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
 
-//        val favoriteButton = viewHolder.itemView.favorite_button
-//        val favouriteChecked = StitchCon.userData?.characters!!.find {
-//            it == character.id
-//        }
-//
-//        favoriteButton.isChecked = favouriteChecked != null
+        d("___", "${StitchCon.userData?.characters!!.find {it == character.id}}")
+
+        val favoriteButton = viewHolder.itemView.favorite_button
+        val favouriteChecked = StitchCon.userData?.characters!!.find {
+            val item = it as Document
+            item["id"] == character.id
+        }
+
+        favoriteButton.isChecked = favouriteChecked != null
 
         d("___", "Inne i bind FavouriteItem")
 
