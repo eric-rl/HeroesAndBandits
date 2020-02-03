@@ -2,6 +2,7 @@ package com.example.heroesandbandits.ViewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.heroesandbandits.Models.Character
+import com.example.heroesandbandits.Models.FavoriteCharacter
 import com.example.heroesandbandits.Models.Series
 
 

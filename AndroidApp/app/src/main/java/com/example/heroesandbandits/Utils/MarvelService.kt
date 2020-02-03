@@ -26,4 +26,9 @@ interface MarvelService {
     fun searchForSeries(
         @Query("titleStartsWith") titleStartsWith: String?
     ) : Single<SeriesDataWrapper>
+
+    @GET("characters?")
+    fun getOneCharacter(
+        @Query("id") id: Int
+    )   : Single<CharacterDataWrapper>
 }

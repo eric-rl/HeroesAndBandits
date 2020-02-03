@@ -41,7 +41,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
         favoriteButton.setOnClickListener {
             if (favoriteButton.isChecked) {
                 Log.d("___favorite", "${character.name} ${favoriteButton.isChecked}")
-                StitchCon.addToFavourites(character)?.addOnCompleteListener {
+                StitchCon.addCharacterToFavourites(character)?.addOnCompleteListener {
                     if (it.isSuccessful) {
                         StitchCon.userData!!.characters.add(Document()
                             .append("id", character.id)

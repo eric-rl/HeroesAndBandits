@@ -2,10 +2,7 @@ package com.example.heroesandbandits.Utils
 
 import android.util.Log
 import android.util.Log.d
-import com.example.heroesandbandits.Models.Character
-import com.example.heroesandbandits.Models.FavoriteSeries
-import com.example.heroesandbandits.Models.MarvelId
-import com.example.heroesandbandits.Models.Series
+import com.example.heroesandbandits.Models.*
 import com.google.android.gms.tasks.Task
 import com.mongodb.stitch.android.core.Stitch
 import com.mongodb.stitch.android.core.StitchAppClient
@@ -88,18 +85,24 @@ object StitchCon {
         return "$path/standard_medium.$extention"
     }
 
-    fun addToFavourites(item: Character): Task<RemoteUpdateResult>? {
-        val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
+    fun addCharacterToFavourites(item: Any): Task<RemoteUpdateResult>? {
+        val updateDoc: Document
         val obj = Document()
-        obj["thumbnail"] = imageUrl
-        obj["name"] = item.name
-        obj["id"] = item.id
-        val updateDoc = Document().append(
+        if (item is Character) {
+            val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
+            obj["thumbnail"] = imageUrl
+            obj["name"] = item.name
+            obj["id"] = item.id
+        } else if (item is FavoriteCharacter) {
+            obj["thumbnail"] = item.thumbnail
+            obj["title"] = item.name
+            obj["id"] = item.id
+        }
+
+        updateDoc = Document().append(
             "\$addToSet",
             Document().append("favourites.characters", obj)
         )
-//        userData?.characters?.add(item.id)
-//        val optionsDoc = RemoteUpdateOptions().upsert(true)
         return userDataCollection?.updateOne(userFilter, updateDoc)
     }
 
@@ -125,13 +128,21 @@ object StitchCon {
 
     }
 
-    fun removeCharacterFromFavourites(item: Character): Task<RemoteUpdateResult>? {
-        val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
+    fun removeCharacterFromFavourites(item: Any): Task<RemoteUpdateResult>? {
+        val updateDoc: Document
         val obj = Document()
-        obj["thumbnail"] = imageUrl
-        obj["name"] = item.name
-        obj["id"] = item.id
-        val updateDoc = Document().append(
+        if (item is Character) {
+            val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
+            obj["thumbnail"] = imageUrl
+            obj["name"] = item.name
+            obj["id"] = item.id
+        } else if (item is FavoriteCharacter) {
+            obj["thumbnail"] = item.thumbnail
+            obj["name"] = item.name
+            obj["id"] = item.id
+        }
+
+        updateDoc = Document().append(
             "\$pull",
             Document().append("favourites.characters", obj)
         )
