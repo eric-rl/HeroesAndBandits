@@ -33,7 +33,7 @@ class FavoritesCharacterResultFragment : Fragment() {
         sharedViewModel = activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val view = inflater.inflate(R.layout.fragment_favourites_result, container, false)
         val adapter = createRecyclerView()
-        view.recyclerViewFavouritesResult.adapter = adapter
+        view.recyclerViewFavouritesResult?.adapter = adapter
         return view
     }
 

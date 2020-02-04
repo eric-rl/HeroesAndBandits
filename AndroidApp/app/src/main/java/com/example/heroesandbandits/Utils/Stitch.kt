@@ -95,7 +95,7 @@ object StitchCon {
             obj["id"] = item.id
         } else if (item is FavoriteCharacter) {
             obj["thumbnail"] = item.thumbnail
-            obj["title"] = item.name
+            obj["name"] = item.name
             obj["id"] = item.id
         }
 
