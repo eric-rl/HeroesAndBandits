@@ -36,19 +36,24 @@ data class Character(
     override val id: Int, //, optional): The unique ID of the character resource.,
     val thumbnail: ImageModel, //, optional): The representative image for this character.,
     val urls: Array<JsonObject>?
-):MarvelId
+):MarvelItem{
+    override fun getImageUrl(): String {
+        var path = thumbnail.path
+        path = path.substring(0, 4) + "s" + path.substring(4, path.length)
+        return path + "/standard_medium." + thumbnail.extension    }
+}
 
 data class FavoriteCharacter(
     var name: String,
     var thumbnail: String,
-    override var id: Int
-):MarvelId
+     var id: Int
+)
 
 data class FavoriteSeries(
     var title: String,
     var thumbnail: String,
-    override var id: Int
-):MarvelId
+    var id: Int
+)
 
 
 data class ImageModel(
@@ -71,10 +76,16 @@ data class Series(
     val description: String?,
     val thumbnail: ImageModel,
     val urls: Array<JsonObject>
-):MarvelId
+):MarvelItem {
+    override fun getImageUrl(): String {
+        var path = thumbnail.path
+        path = path.substring(0, 4) + "s" + path.substring(4, path.length)
+        return path + "/standard_medium." + thumbnail.extension    }
+}
 
-interface MarvelId{
+interface MarvelItem{
     val id: Int
+    fun getImageUrl():String
 }
 
 

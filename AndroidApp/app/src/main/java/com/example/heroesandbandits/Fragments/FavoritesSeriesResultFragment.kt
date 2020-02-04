@@ -14,10 +14,12 @@ import com.example.heroesandbandits.Items.SeriesItem
 import com.example.heroesandbandits.Models.FavoriteCharacter
 import com.example.heroesandbandits.Models.FavoriteSeries
 import com.example.heroesandbandits.R
+import com.example.heroesandbandits.Utils.MarvelRetrofit
 import com.example.heroesandbandits.Utils.StitchCon
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_favourites_result.view.*
 import org.bson.Document
 
@@ -67,9 +69,18 @@ class FavoritesSeriesResultFragment : Fragment() {
         }
 
         adapter.setOnItemClickListener { item, _ ->
-            val char = item as SeriesItem
-            sharedViewModel.clickedSeries = char.series
-            replaceFragment(DetailFragment.newInstance())
+            val seriesItem = item as FavoriteSeriesItem
+            MarvelRetrofit.marvelService.getOneSeries(seriesItem.series.id)
+                .subscribeOn(Schedulers.newThread())
+                .subscribe { result, err ->
+                    if (err?.message != null) {
+                        d("___", "Something went wrong: ${err.message}")
+                    } else {
+                        d("___", "$result")
+                        sharedViewModel.clickedSeries = result.data.results[0]
+                        replaceFragment(DetailFragment.newInstance())
+                    }
+                }
         }
 
         return adapter
