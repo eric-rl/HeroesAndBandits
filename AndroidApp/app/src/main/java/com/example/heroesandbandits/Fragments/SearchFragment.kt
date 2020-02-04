@@ -32,7 +32,11 @@ class SearchFragment : Fragment() {
         sharedViewModel =
             activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val v = inflater.inflate(R.layout.fragment_search, container, false)
-        replaceFragment(SearchDefaultFragment.newInstance())
+        if (sharedViewModel.searchResultsCharacter.isEmpty()) {
+            replaceFragment(SearchDefaultFragment.newInstance())
+        } else {
+            replaceFragment(SearchResultFragment.newInstance())
+        }
 
         v.search_button.setOnClickListener {
             displaySearchResult()
