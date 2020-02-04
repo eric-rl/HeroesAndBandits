@@ -23,8 +23,12 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
         return R.layout.fragment_search_item
     }
 
-
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+        viewHolder.itemView.resultItemText.text = character.name
+        Picasso.get().load(character.getImageUrl())
+            .error(R.drawable.cat)
+            .into(viewHolder.itemView.resultItemAvatar)
+
         val favoriteButton = viewHolder.itemView.favorite_button
         val favouriteChecked = StitchCon.userData?.characters!!.find {
             val item = it as Document
@@ -33,19 +37,11 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
         favoriteButton.isChecked = favouriteChecked != null
 
-
-
-        viewHolder.itemView.resultItemText.setText(character.name)
-        Picasso.get().load(getImageUrl(character))
-            .error(R.drawable.cat)
-            .into(viewHolder.itemView.resultItemAvatar)
-
         favoriteButton.setOnClickListener {
             if (favoriteButton.isChecked) {
                 Log.d("___favorite", "${character.name} ${favoriteButton.isChecked}")
                 StitchCon.addCharacterToFavourites(character)?.addOnCompleteListener {
                     if (it.isSuccessful) {
-
                         getFromApi(character.id)
                         Toast.makeText(
                             MyApplication.context,
@@ -61,10 +57,9 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                     if (it.isSuccessful) {
                         StitchCon.userData!!.characters.remove(Document()
                             .append("id", character.id)
-                            .append("thumbnail", getImageUrl(character))
+                            .append("thumbnail", character.getImageUrl())
                             .append("name", character.name))
                         Log.d("___", "removed from favourites, insertId: ${it.result}")
-                        StitchCon.userData!!.characters.remove(character)
                         Toast.makeText(
                             MyApplication.context,
                             "Successfully removed from favourites, insertId: ${it}",
@@ -80,7 +75,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
         }
     }
 
-    fun getFromApi(id:Int) {
+    private fun getFromApi(id:Int) {
         MarvelRetrofit.marvelService.getOneCharacter(id)
             .subscribeOn(Schedulers.newThread())
             .subscribe { result, err ->
@@ -91,7 +86,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                     StitchCon.userData!!.characters.add(
                         Document()
                             .append("id", result.data.results[0].id)
-                            .append("thumbnail", getImageUrl(result.data.results[0]))
+                            .append("thumbnail", result.data.results[0].getImageUrl())
                             .append("name", result.data.results[0].name)
                     )
                     Log.d(
@@ -102,11 +97,4 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                 }
             }
     }
-
-    fun getImageUrl(c:Character):String{
-        var path = c.thumbnail.path
-        path = path.substring(0, 4) + "s" + path.substring(4, path.length)
-        return path + "/standard_medium." + c.thumbnail.extension
-    }
-
 }

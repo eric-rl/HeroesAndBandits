@@ -31,4 +31,9 @@ interface MarvelService {
     fun getOneCharacter(
         @Query("id") id: Int
     )   : Single<CharacterDataWrapper>
+
+    @GET("series?")
+    fun getOneSeries(
+        @Query("id") id: Int
+    )   : Single<SeriesDataWrapper>
 }
