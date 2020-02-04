@@ -30,7 +30,6 @@ class SearchFragment : Fragment() {
 
     private lateinit var sharedViewModel: SharedViewModel
     private val disposables = CompositeDisposable()
-
     override fun onCreateView(
 
         inflater: LayoutInflater,
@@ -40,19 +39,22 @@ class SearchFragment : Fragment() {
         sharedViewModel =
             activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val v = inflater.inflate(R.layout.fragment_search, container, false)
-        if (sharedViewModel.searchResultsCharacter.isEmpty()) {
-            replaceFragment(SearchDefaultFragment.newInstance())
+
+        if (searchHeroes) {
+            v.heroesRadio.isChecked = true
+            v.seriesRadio.isChecked = false
+            if (sharedViewModel.searchResultsCharacter.isEmpty()) {
+                replaceFragment(SearchDefaultFragment.newInstance())
+            } else {
+                replaceFragment(SearchResultFragment.newInstance())
+            }
         } else {
-            replaceFragment(SearchResultFragment.newInstance())
-        }
-
-        fun closeKeyboard() {
-            val activity = activity as SearchActivity
-
-            val view = activity.currentFocus
-            if (view != null) {
-                val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-                imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
+            v.heroesRadio.isChecked = false
+            v.seriesRadio.isChecked = true
+            if (sharedViewModel.searchResultsSeries.isEmpty()) {
+                replaceFragment(SearchDefaultFragment.newInstance())
+            } else {
+                replaceFragment(SeriesSearchResultFragment.newInstance())
             }
         }
 
@@ -61,19 +63,50 @@ class SearchFragment : Fragment() {
             closeKeyboard()
         }
 
-
-
-
-
         v.radio_group.setOnCheckedChangeListener { _, checkedId ->
             val radio: RadioButton = v.findViewById(checkedId)
             sharedViewModel.searchForHeroes = radio == v.heroesRadio
+            searchHeroes = sharedViewModel.searchForHeroes
+
+            /*FIX LOGIC WITH 'lastSearch' to avoid unnecessary fetch from api*/
+
+            if (searchHeroes) {
+//                if (sharedViewModel.searchResultsCharacter.isEmpty()) {
+                    replaceFragment(SearchDefaultFragment.newInstance())
+                    if(view!!.search_input.text.toString().trim().isNotEmpty()){
+                        displaySearchResult()
+                    }
+//                } else {
+//                    replaceFragment(SearchResultFragment.newInstance())
+//                }
+            } else {
+//                if (sharedViewModel.searchResultsSeries.isEmpty()) {
+                    replaceFragment(SearchDefaultFragment.newInstance())
+                    if(view!!.search_input.text.toString().trim().isNotEmpty()){
+                        displaySearchResult()
+                    }
+//                } else {
+//                    replaceFragment(SeriesSearchResultFragment.newInstance())
+//                }
+            }
         }
         return v
     }
 
+    fun closeKeyboard() {
+        val activity = activity as SearchActivity
+
+        val view = activity.currentFocus
+        if (view != null) {
+            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
+        }
+    }
+
     private fun displaySearchResult() {
-        val searchQuery = view!!.search_input.text.toString().trim().toLowerCase(Locale.getDefault())
+        val searchQuery =
+            view!!.search_input.text.toString().trim().toLowerCase(Locale.getDefault())
+        lastSearch = searchQuery
         val toBeDisposed: Disposable
         if (sharedViewModel.searchForHeroes) {
             toBeDisposed =
@@ -124,6 +157,8 @@ class SearchFragment : Fragment() {
     }
 
     companion object {
+        var lastSearch = ""
+        var searchHeroes = true
         fun newInstance(): SearchFragment =
             SearchFragment()
     }
