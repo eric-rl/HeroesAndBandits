@@ -85,8 +85,7 @@ object StitchCon {
         return "$path/standard_medium.$extention"
     }
 
-    fun addCharacterToFavourites(item: Any): Task<RemoteUpdateResult>? {
-        val updateDoc: Document
+    private fun convertItemToDocument(item: Any): Document{
         val obj = Document()
         if (item is Character) {
             val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
@@ -97,8 +96,22 @@ object StitchCon {
             obj["thumbnail"] = item.thumbnail
             obj["name"] = item.name
             obj["id"] = item.id
+        } else if (item is Series) {
+            val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
+            obj["thumbnail"] = imageUrl
+            obj["title"] = item.title
+            obj["id"] = item.id
+        } else if (item is FavoriteSeries) {
+            obj["thumbnail"] = item.thumbnail
+            obj["title"] = item.title
+            obj["id"] = item.id
         }
+        return obj
+    }
 
+    fun addCharacterToFavourites(item: Any): Task<RemoteUpdateResult>? {
+        val updateDoc: Document
+        val obj = convertItemToDocument(item)   
         updateDoc = Document().append(
             "\$addToSet",
             Document().append("favourites.characters", obj)
@@ -108,40 +121,17 @@ object StitchCon {
 
     fun addSeriesToFavourites(item: Any): Task<RemoteUpdateResult>? {
         val updateDoc: Document
-        val obj = Document()
-        if (item is Series) {
-            val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
-            obj["thumbnail"] = imageUrl
-            obj["title"] = item.title
-            obj["id"] = item.id
-
-        } else if (item is FavoriteSeries) {
-            obj["thumbnail"] = item.thumbnail
-            obj["title"] = item.title
-            obj["id"] = item.id
-        }
+        val obj = convertItemToDocument(item)
         updateDoc = Document().append(
             "\$addToSet",
             Document().append("favourites.series", obj)
         )
         return userDataCollection?.updateOne(userFilter, updateDoc)
-
     }
 
     fun removeCharacterFromFavourites(item: Any): Task<RemoteUpdateResult>? {
         val updateDoc: Document
-        val obj = Document()
-        if (item is Character) {
-            val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
-            obj["thumbnail"] = imageUrl
-            obj["name"] = item.name
-            obj["id"] = item.id
-        } else if (item is FavoriteCharacter) {
-            obj["thumbnail"] = item.thumbnail
-            obj["name"] = item.name
-            obj["id"] = item.id
-        }
-
+        val obj = convertItemToDocument(item)
         updateDoc = Document().append(
             "\$pull",
             Document().append("favourites.characters", obj)
@@ -151,17 +141,7 @@ object StitchCon {
 
     fun removeSeriesFromFavourite(item: Any): Task<RemoteUpdateResult>? {
         val updateDoc: Document
-        val obj = Document()
-        if (item is Series) {
-            val imageUrl = imageConverter(item.thumbnail.path, item.thumbnail.extension)
-            obj["thumbnail"] = imageUrl
-            obj["title"] = item.title
-            obj["id"] = item.id
-        } else if (item is FavoriteSeries) {
-            obj["thumbnail"] = item.thumbnail
-            obj["title"] = item.title
-            obj["id"] = item.id
-        }
+        val obj = convertItemToDocument(item)
         updateDoc = Document().append(
             "\$pull",
             Document().append("favourites.series", obj)
