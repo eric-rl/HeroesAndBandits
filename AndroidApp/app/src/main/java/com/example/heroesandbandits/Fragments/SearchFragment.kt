@@ -17,6 +17,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_search.view.*
+import java.util.*
 
 class SearchFragment : Fragment() {
 
@@ -51,10 +52,11 @@ class SearchFragment : Fragment() {
     }
 
     private fun displaySearchResult() {
+        val searchQuery = view!!.search_input.text.toString().trim().toLowerCase(Locale.getDefault())
         val toBeDisposed: Disposable
         if (sharedViewModel.searchForHeroes) {
             toBeDisposed =
-                MarvelRetrofit.marvelService.searchForCharacter(view!!.search_input.text.toString())
+                MarvelRetrofit.marvelService.searchForCharacter(searchQuery)
                     .subscribeOn(Schedulers.newThread())
                     .subscribe { result, err ->
                         if (err?.message != null) {
@@ -72,7 +74,7 @@ class SearchFragment : Fragment() {
                     }
         } else {
             toBeDisposed =
-                MarvelRetrofit.marvelService.searchForSeries(view!!.search_input.text.toString())
+                MarvelRetrofit.marvelService.searchForSeries(searchQuery)
                     .subscribeOn(Schedulers.newThread()).subscribe { result, err ->
                         if (err?.message != null) {
                             Log.d("___", "Something went wrong: ${err.message}")
