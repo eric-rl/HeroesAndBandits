@@ -29,7 +29,6 @@ class SearchActivity : AppCompatActivity() {
         d("frag", "switching to $nextFragment")
         val transaction = supportFragmentManager.beginTransaction()
 
-
 //        if (fromFrag is SearchFragment && nextFragment is MessageFragment || nextFragment is FavoritesFragment) {
 //            transaction.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
 //        } else if(fromFrag is MessageFragment && nextFragment is SearchFragment){
@@ -37,9 +36,6 @@ class SearchActivity : AppCompatActivity() {
 //        } else if(fromFrag is FavoritesFragment && nextFragment is MessageFragment || nextFragment is SearchFragment){
 //            transaction.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
 //        }
-
-
-
 
         transaction.replace(R.id.container, nextFragment)
         transaction.addToBackStack(null)
