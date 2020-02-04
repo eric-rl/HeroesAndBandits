@@ -5,9 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.example.heroesandbandits.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.heroesandbandits.Utils.StitchCon
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -15,16 +14,13 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
         register_button_register.setOnClickListener {
             performRegister()
         }
-
+        
         already_have_account_text_view.setOnClickListener {
-            Log.d("__RegisterActivity", "Try to show login activity")
-
-            // launch the login activity
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 
@@ -32,12 +28,16 @@ class RegisterActivity : AppCompatActivity() {
         val email = email_edittext_register.text.toString()
         val password = password_edtittext_register.text.toString()
 
-        if (email.isEmpty() || password.isEmpty()) {
+        if (email.isEmpty() || password.length < 6) {
             Toast.makeText(this, "Please enter text in email/pw", Toast.LENGTH_SHORT).show()
+        } else StitchCon.registerUser(email, password)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                startActivity(Intent(this, LoginActivity::class.java))
+            } else {
+                Log.d("___RegisterActivity", "ERROR: ${task.exception}")
+                Log.d("___RegisterActivity", "Email is: $email")
+                Log.d("___RegisterActivity", "Password: $password")
+            }
         }
-
-        Log.d("__RegisterActivity", "Email is: $email")
-        Log.d("__RegisterActivity", "Password: $password")
     }
-
 }

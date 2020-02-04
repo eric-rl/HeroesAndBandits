@@ -2,10 +2,14 @@ package com.example.heroesandbandits.ViewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.heroesandbandits.Models.Character
-import com.xwray.groupie.Item
+import com.example.heroesandbandits.Models.FavoriteCharacter
+import com.example.heroesandbandits.Models.Series
 
 
 class SharedViewModel: ViewModel() {
-    var searchResults = ArrayList<Character>()
+    var searchResultsCharacter = ArrayList<Character>()
     var clickedItem: Character? = null
+    var clickedSeries: Series? = null
+    var searchResultsSeries = ArrayList<Series>()
+    var searchForHeroes: Boolean = true
 }

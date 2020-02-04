@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C04640">
+    android:background="#8BC34A">
 
     <EditText
         android:id="@+id/email_edittext_login"
@@ -15,10 +14,10 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/rounded_edittext_register_login"
         android:ems="10"
-        android:hint="@string/username"
+        android:hint="Username"
         android:inputType="textEmailAddress"
-        android:paddingStart="16dp"
-        android:paddingEnd="0dp"
+        android:paddingLeft="16dp"
+        android:text="peter.sjogren@live.se"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,10 +29,10 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/rounded_edittext_register_login"
         android:ems="10"
-        android:hint="@string/password"
+        android:hint="Password"
         android:inputType="textPassword"
-        android:paddingStart="16dp"
-        android:paddingEnd="0dp"
+        android:paddingLeft="16dp"
+        android:text="123456"
         app:layout_constraintEnd_toEndOf="@+id/email_edittext_login"
         app:layout_constraintStart_toStartOf="@+id/email_edittext_login"
         app:layout_constraintTop_toBottomOf="@+id/email_edittext_login" />
@@ -43,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/login"
+        android:text="Login"
         android:textColor="@android:color/white"
         android:background="@drawable/rounded_button"
         app:layout_constraintEnd_toEndOf="@+id/password_edittext_login"
@@ -55,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="@string/back_to_login"
+        android:text="Register"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
