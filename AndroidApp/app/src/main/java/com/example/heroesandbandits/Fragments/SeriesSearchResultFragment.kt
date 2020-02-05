@@ -37,7 +37,7 @@ class SeriesSearchResultFragment : Fragment() {
 
     private fun replaceFragment(fragment: Fragment) {
         val transaction = activity!!.supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.search_container, fragment)
+        transaction.replace(R.id.search_view, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }

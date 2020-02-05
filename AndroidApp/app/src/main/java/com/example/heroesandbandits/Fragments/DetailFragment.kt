@@ -11,10 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Models.URLS
 import com.example.heroesandbandits.R
+import com.example.heroesandbandits.Utils.StitchCon
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.*
+import kotlinx.android.synthetic.main.fragment_search_item.view.*
+import org.bson.Document
 
 class DetailFragment : Fragment() {
 
@@ -44,7 +47,7 @@ class DetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         createWebLink()
-        if(sharedViewModel.searchForHeroes){
+        if (sharedViewModel.searchForHeroes) {
             displayCharacter()
         } else {
             displaySerie()
@@ -79,6 +82,14 @@ class DetailFragment : Fragment() {
     }
 
     private fun displayCharacter() {
+        val favoriteButton = view?.favorite_button
+        val favouriteChecked = StitchCon.userData?.characters!!.find {
+            val item = it as Document
+            item["id"] == sharedViewModel.clickedItem?.id
+        }
+
+        favoriteButton?.isChecked = favouriteChecked != null
+
         var path = sharedViewModel.clickedItem?.thumbnail?.path
         path = path?.substring(0, 4) + "s" + path?.substring(4, path.length)
         val imageUrl =
@@ -94,6 +105,14 @@ class DetailFragment : Fragment() {
     }
 
     private fun displaySerie() {
+        val favoriteButton = view?.favorite_button
+        val favouriteChecked = StitchCon.userData?.series!!.find {
+            val item = it as Document
+            item["id"] == sharedViewModel.clickedSeries?.id
+        }
+
+        favoriteButton?.isChecked = favouriteChecked != null
+
         var path = sharedViewModel.clickedSeries?.thumbnail?.path
         path = path?.substring(0, 4) + "s" + path?.substring(4, path.length)
         val imageUrl =
