@@ -15,7 +15,6 @@ import com.xwray.groupie.GroupieViewHolder
 import kotlinx.android.synthetic.main.fragment_search_result.view.*
 
 class SeriesSearchResultFragment : Fragment() {
-
     private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
@@ -27,10 +26,7 @@ class SeriesSearchResultFragment : Fragment() {
         sharedViewModel = activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val view = inflater.inflate(R.layout.fragment_search_result, container, false)
         val adapter = createRecyclerView()
-
         view.recyclerViewSearchResult.adapter = adapter
-
-
         return view
     }
 
