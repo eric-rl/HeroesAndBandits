@@ -28,8 +28,6 @@ class FavoriteCharacterItem(val character: FavoriteCharacter) : Item<GroupieView
 
         favoriteButton.isChecked = favouriteChecked != null
 
-        d("___", "Inne i bind FavouriteItem")
-
         viewHolder.itemView.resultItemText.setText(character.name)
         Picasso.get().load(character.thumbnail)
             .error(R.drawable.cat)

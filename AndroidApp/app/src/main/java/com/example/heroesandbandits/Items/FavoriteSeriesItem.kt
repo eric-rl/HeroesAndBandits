@@ -21,9 +21,6 @@ class FavoriteSeriesItem(val series: FavoriteSeries) : Item<GroupieViewHolder>()
     }
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-
-        d("___", "${StitchCon.userData?.series!!.find {it == series.id}}")
-
         val favoriteButton = viewHolder.itemView.favorite_button
         val favouriteChecked = StitchCon.userData?.series!!.find {
             val item = it as Document
@@ -31,8 +28,6 @@ class FavoriteSeriesItem(val series: FavoriteSeries) : Item<GroupieViewHolder>()
         }
 
         favoriteButton.isChecked = favouriteChecked != null
-
-        d("___", "Inne i bind FavouriteItem")
 
         viewHolder.itemView.resultItemText.setText(series.title)
         Picasso.get().load(series.thumbnail)
