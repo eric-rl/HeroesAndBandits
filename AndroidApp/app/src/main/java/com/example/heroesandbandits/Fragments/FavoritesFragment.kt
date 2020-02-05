@@ -56,8 +56,6 @@ class FavoritesFragment: Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        d("___", "Detta körs va?")
-
         super.onCreate(savedInstanceState)
     }
 

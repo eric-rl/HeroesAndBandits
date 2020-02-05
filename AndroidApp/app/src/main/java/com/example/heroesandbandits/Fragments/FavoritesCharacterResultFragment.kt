@@ -54,7 +54,6 @@ class FavoritesCharacterResultFragment : Fragment() {
 
         for (char in StitchCon.userData?.characters!!) {
             val item = char as Document
-            d("___", "ett item: ${item["name"]}")
             adapter.add(
                 FavoriteCharacterItem(
                     FavoriteCharacter(
@@ -80,8 +79,6 @@ class FavoritesCharacterResultFragment : Fragment() {
                     }
                 }
         }
-
         return adapter
-
     }
 }

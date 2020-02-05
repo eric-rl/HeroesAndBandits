@@ -56,6 +56,5 @@ class SearchResultFragment : Fragment() {
         }
 
         return adapter
-
     }
 }

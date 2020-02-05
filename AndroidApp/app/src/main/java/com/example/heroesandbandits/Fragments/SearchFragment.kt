@@ -1,9 +1,7 @@
 package com.example.heroesandbandits.Fragments
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.renderscript.ScriptGroup
 import android.util.Log
 import android.util.Log.d
 import android.view.LayoutInflater
@@ -11,14 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.RadioButton
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.Activities.SearchActivity
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.Utils.MarvelRetrofit
-import com.example.heroesandbandits.Utils.StitchCon
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -39,76 +34,63 @@ class SearchFragment : Fragment() {
         sharedViewModel =
             activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val v = inflater.inflate(R.layout.fragment_search, container, false)
-
-        if (searchHeroes) {
-            v.heroesRadio.isChecked = true
-            v.seriesRadio.isChecked = false
-            if (sharedViewModel.searchResultsCharacter.isEmpty()) {
-                replaceFragment(SearchDefaultFragment.newInstance())
-            } else {
-                replaceFragment(SearchResultFragment.newInstance())
-            }
-        } else {
-            v.heroesRadio.isChecked = false
-            v.seriesRadio.isChecked = true
-            if (sharedViewModel.searchResultsSeries.isEmpty()) {
-                replaceFragment(SearchDefaultFragment.newInstance())
-            } else {
-                replaceFragment(SeriesSearchResultFragment.newInstance())
-            }
-        }
-
         v.search_button.setOnClickListener {
-            displaySearchResult()
+            val query = getQuery()
+            if(query.isNotEmpty()){
+                displaySearchResult(query)
+            } else {
+                replaceFragment(SearchDefaultFragment.newInstance())
+            }
             closeKeyboard()
         }
 
         v.radio_group.setOnCheckedChangeListener { _, checkedId ->
             val radio: RadioButton = v.findViewById(checkedId)
             sharedViewModel.searchForHeroes = radio == v.heroesRadio
-            searchHeroes = sharedViewModel.searchForHeroes
-
-            /*FIX LOGIC WITH 'lastSearch' to avoid unnecessary fetch from api*/
-
-            if (searchHeroes) {
-//                if (sharedViewModel.searchResultsCharacter.isEmpty()) {
-                    replaceFragment(SearchDefaultFragment.newInstance())
-                    if(view!!.search_input.text.toString().trim().isNotEmpty()){
-                        displaySearchResult()
-                    }
-//                } else {
-//                    replaceFragment(SearchResultFragment.newInstance())
-//                }
-            } else {
-//                if (sharedViewModel.searchResultsSeries.isEmpty()) {
-                    replaceFragment(SearchDefaultFragment.newInstance())
-                    if(view!!.search_input.text.toString().trim().isNotEmpty()){
-                        displaySearchResult()
-                    }
-//                } else {
-//                    replaceFragment(SeriesSearchResultFragment.newInstance())
-//                }
+            searchCharacters = sharedViewModel.searchForHeroes
+            val query = getQuery()
+            when{
+                query.isEmpty() -> replaceFragment(SearchDefaultFragment.newInstance())
+                query == latestQuery -> displayData(query, v)
+                else -> displaySearchResult(query)
             }
+        }
+
+        if(latestQuery.isEmpty()) {
+            replaceFragment(SearchDefaultFragment.newInstance())
+        } else {
+            d("___","SEARH CREATE ELSE : " + v.heroesRadio.isChecked + v.seriesRadio.isChecked + searchCharacters)
+            v.search_input.setText(latestQuery)
+            displayData(latestQuery, v)
         }
         return v
     }
-
-    fun closeKeyboard() {
-        val activity = activity as SearchActivity
-
-        val view = activity.currentFocus
-        if (view != null) {
-            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
+    fun displayData(query: String, v: View){
+        when{
+            sharedViewModel.searchForHeroes && query == latestCharacterQuery && sharedViewModel.searchResultsCharacter.isNotEmpty() -> {
+                replaceFragment(SearchResultFragment.newInstance())
+                v.heroesRadio.isChecked = true
+                v.seriesRadio.isChecked = false
+                d("___","DISPLAY 1")
+            }
+            !sharedViewModel.searchForHeroes && query == latestSeriesQuery && sharedViewModel.searchResultsSeries.isNotEmpty() -> {
+                replaceFragment(SeriesSearchResultFragment.newInstance())
+                v.heroesRadio.isChecked = false
+                v.seriesRadio.isChecked = true
+                d("___","DISPLAY 2 " + query  + " : " + latestSeriesQuery + ": "+  sharedViewModel.searchResultsSeries.size)
+            }
+            else -> displaySearchResult(query)
         }
     }
 
-    private fun displaySearchResult() {
-        val searchQuery =
-            view!!.search_input.text.toString().trim().toLowerCase(Locale.getDefault())
-        lastSearch = searchQuery
+    private fun displaySearchResult(searchQuery:String) {
+        d("___","DISPLAYSEARCHRESULT")
+
+        latestQuery = searchQuery
         val toBeDisposed: Disposable
         if (sharedViewModel.searchForHeroes) {
+            sharedViewModel.searchResultsCharacter.clear()
+            latestCharacterQuery = latestQuery
             toBeDisposed =
                 MarvelRetrofit.marvelService.searchForCharacter(searchQuery)
                     .subscribeOn(Schedulers.newThread())
@@ -120,13 +102,14 @@ class SearchFragment : Fragment() {
                             if (result.data.results.isEmpty()) {
                                 replaceFragment(SearchNoResultFragment.newInstance())
                             } else {
-                                sharedViewModel.searchResultsCharacter.clear()
                                 sharedViewModel.searchResultsCharacter.addAll(result.data.results)
                                 replaceFragment(SearchResultFragment.newInstance())
                             }
                         }
                     }
         } else {
+            sharedViewModel.searchResultsSeries.clear()
+            latestSeriesQuery = latestQuery
             toBeDisposed =
                 MarvelRetrofit.marvelService.searchForSeries(searchQuery)
                     .subscribeOn(Schedulers.newThread()).subscribe { result, err ->
@@ -138,7 +121,6 @@ class SearchFragment : Fragment() {
                                 replaceFragment(SearchNoResultFragment.newInstance())
                             } else {
                                 d("___", "${result.data}")
-                                sharedViewModel.searchResultsSeries.clear()
                                 sharedViewModel.searchResultsSeries.addAll(result.data.results)
                                 replaceFragment(SeriesSearchResultFragment.newInstance())
                             }
@@ -156,9 +138,21 @@ class SearchFragment : Fragment() {
         transaction.commit()
     }
 
+    fun closeKeyboard() {
+        val activity = activity as SearchActivity
+
+        val view = activity.currentFocus
+        if (view != null) {
+            val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
+        }
+    }
+
     companion object {
-        var lastSearch = ""
-        var searchHeroes = true
+        var latestQuery = ""
+        var latestCharacterQuery = ""
+        var latestSeriesQuery = ""
+        var searchCharacters = true
         fun newInstance(): SearchFragment =
             SearchFragment()
     }
@@ -170,6 +164,12 @@ class SearchFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         disposables.dispose()
+    }
+
+    fun getQuery():String{
+         return if(view?.search_input != null)
+             view!!.search_input.text.toString().trim().toLowerCase(Locale.getDefault())
+         else ""
     }
 }
 

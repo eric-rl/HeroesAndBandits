@@ -56,7 +56,6 @@ class FavoritesSeriesResultFragment : Fragment() {
 
         for (series in StitchCon.userData?.series!!) {
             val item = series as Document
-            d("___", "ett item: ${item["title"]}")
             adapter.add(
                 FavoriteSeriesItem(
                     FavoriteSeries(
