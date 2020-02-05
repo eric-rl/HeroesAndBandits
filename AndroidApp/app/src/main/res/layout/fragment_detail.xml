@@ -24,80 +24,73 @@
                 android:layout_width="match_parent"
                 android:layout_height="687dp">
 
-                <Button
-                    android:id="@+id/favorite_button_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:background="@drawable/rounded_button"
-                    android:text="Favorite"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/details_description"
-                    app:layout_constraintVertical_bias="0.148" />
-
                 <TextView
                     android:id="@+id/details_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Name: Cat"
+                    android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    app:layout_constraintBottom_toTopOf="@+id/details_image"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/goto_button_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/rounded_button"
-                    android:text="Go To"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/details_description"
-                    app:layout_constraintVertical_bias="0.148" />
+                    app:layout_constraintTop_toBottomOf="@+id/details_image" />
 
                 <TextView
                     android:id="@+id/details_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:padding="10dp"
                     android:text="TextView"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/details_image" />
-
-                <Button
-                    android:id="@+id/send_button_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_button"
-                    android:text="Send"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/goto_button_detail"
-                    app:layout_constraintHorizontal_bias="0.484"
-                    app:layout_constraintStart_toEndOf="@+id/favorite_button_detail"
-                    app:layout_constraintTop_toBottomOf="@+id/details_description"
-                    app:layout_constraintVertical_bias="0.148" />
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
                 <ImageView
                     android:id="@+id/details_image"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
+                    android:layout_marginTop="16dp"
                     android:src="@drawable/cat"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.495"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.242" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.497"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/details_name">
+
+                    <Button
+                        android:id="@+id/goto_button_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="34dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/rounded_button"
+                        android:text="Go To"
+                        android:textColor="@android:color/white" />
+
+                    <CheckBox
+                        android:id="@+id/favorite_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:button="@android:drawable/btn_star"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
