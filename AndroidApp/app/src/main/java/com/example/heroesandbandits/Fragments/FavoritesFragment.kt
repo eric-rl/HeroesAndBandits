@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.fragment_favorites.view.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
 import kotlinx.android.synthetic.main.fragment_search.view.radio_group
