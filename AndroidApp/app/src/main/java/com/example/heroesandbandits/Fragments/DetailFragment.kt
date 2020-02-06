@@ -99,7 +99,11 @@ class DetailFragment : Fragment() {
             .error(R.drawable.cat)
             .into(details_image)
         details_name.text = sharedViewModel.clickedItem?.name
-        details_description.text = sharedViewModel.clickedItem?.description
+        if (sharedViewModel.clickedItem?.description != "") {
+            details_description.text = sharedViewModel.clickedItem?.description
+        } else {
+            details_description.text = "This character doesnt have a description"
+        }
         Log.d("huehuehue", "${sharedViewModel.clickedItem}")
 
     }
@@ -121,7 +125,10 @@ class DetailFragment : Fragment() {
         Picasso.get().load(imageUrl)
             .error(R.drawable.cat)
             .into(details_image)
+
         details_name.text = sharedViewModel.clickedSeries?.title
-        details_description.text = sharedViewModel.clickedSeries?.description
+        if (sharedViewModel.clickedSeries?.description != null) {
+            details_description.text = sharedViewModel.clickedSeries?.description
+        } else details_description.text = "This serie doesnt have a description"
     }
 }
