@@ -47,7 +47,7 @@ class DetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         createWebLink()
-        if (sharedViewModel.searchForHeroes) {
+        if (sharedViewModel.searchForCharacters) {
             displayCharacter()
         } else {
             displaySerie()
@@ -55,7 +55,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun createWebLink() {
-        if (sharedViewModel.searchForHeroes) {
+        if (sharedViewModel.searchForCharacters) {
             if (sharedViewModel.clickedItem?.urls != null) {
 
                 goto_button_detail.setOnClickListener {

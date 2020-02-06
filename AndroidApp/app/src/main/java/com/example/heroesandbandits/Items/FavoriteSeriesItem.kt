@@ -53,8 +53,6 @@ class FavoriteSeriesItem(val series: FavoriteSeries) : Item<GroupieViewHolder>()
                             .append("id", series.id)
                             .append("thumbnail", series.thumbnail)
                             .append("title", series.title))
-                        StitchCon.userData!!.characters.remove(series.id)
-                        
                     } else {
                         Log.e("___", "Error removing from favourites", it.exception);
                     }

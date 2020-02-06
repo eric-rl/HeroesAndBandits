@@ -11,5 +11,5 @@ class SharedViewModel: ViewModel() {
     var clickedItem: Character? = null
     var clickedSeries: Series? = null
     var searchResultsSeries = ArrayList<Series>()
-    var searchForHeroes: Boolean = true
+    var searchForCharacters: Boolean = true
 }
