@@ -75,7 +75,6 @@ class FavoritesSeriesResultFragment : Fragment() {
                     if (err?.message != null) {
                         d("___", "Something went wrong: ${err.message}")
                     } else {
-                        d("___", "$result")
                         sharedViewModel.clickedSeries = result.data.results[0]
                         replaceFragment(DetailFragment.newInstance())
                     }

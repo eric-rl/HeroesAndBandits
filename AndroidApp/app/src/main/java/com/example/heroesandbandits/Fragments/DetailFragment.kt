@@ -16,7 +16,9 @@ import com.example.heroesandbandits.ViewModel.SharedViewModel
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.*
+import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.fragment_search_item.view.*
+import kotlinx.android.synthetic.main.fragment_search_item.view.favorite_button
 import org.bson.Document
 
 class DetailFragment : Fragment() {
@@ -32,6 +34,7 @@ class DetailFragment : Fragment() {
         sharedViewModel =
             activity?.let { ViewModelProviders.of(it).get(SharedViewModel::class.java) }!!
         val view = inflater.inflate(R.layout.fragment_detail, container, false)
+        view.favorite_button.isEnabled = false
         return view
     }
 
