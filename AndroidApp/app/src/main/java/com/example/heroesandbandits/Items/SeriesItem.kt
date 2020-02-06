@@ -35,7 +35,6 @@ class SeriesItem(val series: Series) : Item<GroupieViewHolder>() {
 
         favoriteButton.setOnClickListener {
             if (favoriteButton.isChecked) {
-                Log.d("___favorite", "${series.title} ${favoriteButton.isChecked}")
                 StitchCon.addSeriesToFavourites(series)?.addOnCompleteListener {
                     if (it.isSuccessful) {
                         getFromApi(series.id)
@@ -60,7 +59,6 @@ class SeriesItem(val series: Series) : Item<GroupieViewHolder>() {
                         Log.e("___", "Error removing from favourites", it.exception);
 
                     }
-                    Log.d("___favorite", "${favoriteButton.isChecked}")
                 }
             }
         }

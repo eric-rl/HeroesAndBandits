@@ -39,7 +39,6 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
 
         favoriteButton.setOnClickListener {
             if (favoriteButton.isChecked) {
-                Log.d("___favorite", "${character.name} ${favoriteButton.isChecked}")
                 StitchCon.addCharacterToFavourites(character)?.addOnCompleteListener {
                     if (it.isSuccessful) {
                         getFromApi(character.id)
@@ -69,7 +68,6 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
                         Log.e("___", "Error removing from favourites", it.exception);
 
                     }
-                    Log.d("___favorite", "${favoriteButton.isChecked}")
                 }
             }
         }

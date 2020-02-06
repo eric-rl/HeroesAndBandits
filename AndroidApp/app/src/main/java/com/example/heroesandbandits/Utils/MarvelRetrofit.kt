@@ -71,30 +71,20 @@ object MarvelRetrofit {
                     .url(url)
 
                 val request = requestBuilder.build()
-                var counter = 0
+//                var counter = 0
                 val iter = myCache.urls()
+                d("___","ITERHASNEXT: " + iter.hasNext())
                 while(iter.hasNext() && !isCached){
                     val url = iter.next()
                     if(url == request.url().toString()){
-                        d("___", "${request.url()}")
-                        d("___", "${url}" )
-                        d("___", "${url == request.url().toString()} - ${++counter}")
+//                        d("___", "${request.url()}")
+//                        d("___", "${url}" )
+//                        d("___", "${url == request.url().toString()} - ${++counter}")
                         isCached = true
                     } else {
-                        d("___","COUNTER: ${++counter}")
+//                        d("___","COUNTER: ${++counter}")
                     }
                 }
-//                myCache.urls().forEach {
-//                    if(it == request.url().toString()){
-//                        d("___", "${request.url().toString()}" )
-//                        d("___", "${it}" )
-//                        d("___", "${it == request.url().toString()} - ")
-//                        isCached = true
-//                        return@forEach
-//                    } else {
-//                        d("___","COUNTER: ${++counter}")
-//                    }
-//                }
                 chain.proceed(request)
             }
             .addInterceptor { chain ->

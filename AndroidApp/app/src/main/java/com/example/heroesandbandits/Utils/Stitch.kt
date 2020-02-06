@@ -20,16 +20,13 @@ import org.bson.BsonValue
 
 object StitchCon {
     class UserData(data: Document) {
-        val _id: String
-        val id: String
-        var favourites: Document
+        val _id: String = data["_id"].toString()
+        val id: String = data["id"].toString()
+        var favourites: Document = data["favourites"] as Document
         var characters: MutableList<Any>
         var series: MutableList<Any>
 
         init {
-            _id = data["_id"].toString()
-            id = data["id"].toString()
-            favourites = data["favourites"] as Document
             characters = favourites["characters"] as ArrayList<Any>
             series = favourites["series"] as ArrayList<Any>
         }
@@ -171,11 +168,8 @@ object StitchCon {
         db!!.getCollection("user_data").findOne(userFilter).addOnCompleteListener {
             if (it.isSuccessful && it.result != null) {
                 userData = UserData(it.result)
-                d("___", "id: ${userData?.id}  -  size: ${userData?.characters?.size}")
-                d("___", "favourites: ${userData?.favourites}")
-
+                d("___", "LOGGED IN - id: ${userData?.id}")
             } else {
-
                 userDataCollection?.insertOne(
                     Document()
                         .append("id", client?.auth?.user?.id)

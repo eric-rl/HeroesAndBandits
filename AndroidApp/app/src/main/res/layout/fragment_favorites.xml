@@ -23,17 +23,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/heroesRadio"
+            android:id="@+id/favoriteCharacterRadio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Heroes" />
+            android:text="Character" />
 
 
         <RadioButton
-            android:id="@+id/seriesRadio"
+            android:id="@+id/favoriteSeriesRadio"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

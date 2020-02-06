@@ -1,7 +1,6 @@
 package com.example.heroesandbandits.Fragments
 
 import android.os.Bundle
-import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.heroesandbandits.R
 import com.example.heroesandbandits.ViewModel.SharedViewModel
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.fragment_favorites.view.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
+import kotlinx.android.synthetic.main.fragment_search.view.radio_group
 
 class FavoritesFragment: Fragment() {
     private lateinit var sharedViewModel: SharedViewModel
@@ -32,8 +32,8 @@ class FavoritesFragment: Fragment() {
         replaceFragment(FavoritesCharacterResultFragment.newInstance())
         v.radio_group.setOnCheckedChangeListener { _, checkedId ->
             val radio: RadioButton = v.findViewById(checkedId)
-            sharedViewModel.searchForHeroes = radio == v.heroesRadio
-            if(sharedViewModel.searchForHeroes){
+            sharedViewModel.searchForCharacters = radio == v.favoriteCharacterRadio
+            if(sharedViewModel.searchForCharacters){
                 replaceFragment(FavoritesCharacterResultFragment.newInstance())
             } else{
                 replaceFragment(FavoritesSeriesResultFragment.newInstance())

@@ -46,8 +46,8 @@ class SearchFragment : Fragment() {
 
         v.radio_group.setOnCheckedChangeListener { _, checkedId ->
             val radio: RadioButton = v.findViewById(checkedId)
-            sharedViewModel.searchForHeroes = radio == v.heroesRadio
-            searchCharacters = sharedViewModel.searchForHeroes
+            sharedViewModel.searchForCharacters = radio == v.searchCharacterRadio
+            searchCharacters = sharedViewModel.searchForCharacters
             val query = getQuery()
             when{
                 query.isEmpty() -> replaceFragment(SearchDefaultFragment.newInstance())
@@ -59,7 +59,7 @@ class SearchFragment : Fragment() {
         if(latestQuery.isEmpty()) {
             replaceFragment(SearchDefaultFragment.newInstance())
         } else {
-            d("___","SEARH CREATE ELSE : " + v.heroesRadio.isChecked + v.seriesRadio.isChecked + searchCharacters)
+            d("___","SEARH CREATE ELSE : " + v.searchCharacterRadio.isChecked + v.searchSeriesRadio.isChecked + searchCharacters)
             v.search_input.setText(latestQuery)
             displayData(latestQuery, v)
         }
@@ -67,16 +67,16 @@ class SearchFragment : Fragment() {
     }
     fun displayData(query: String, v: View){
         when{
-            sharedViewModel.searchForHeroes && query == latestCharacterQuery && sharedViewModel.searchResultsCharacter.isNotEmpty() -> {
-                replaceFragment(SearchResultFragment.newInstance())
-                v.heroesRadio.isChecked = true
-                v.seriesRadio.isChecked = false
+            sharedViewModel.searchForCharacters && query == latestCharacterQuery && sharedViewModel.searchResultsCharacter.isNotEmpty() -> {
+                replaceFragment(SearchCharacterResultFragment.newInstance())
+                v.searchCharacterRadio.isChecked = true
+                v.searchSeriesRadio.isChecked = false
                 d("___","DISPLAY 1")
             }
-            !sharedViewModel.searchForHeroes && query == latestSeriesQuery && sharedViewModel.searchResultsSeries.isNotEmpty() -> {
-                replaceFragment(SeriesSearchResultFragment.newInstance())
-                v.heroesRadio.isChecked = false
-                v.seriesRadio.isChecked = true
+            !sharedViewModel.searchForCharacters && query == latestSeriesQuery && sharedViewModel.searchResultsSeries.isNotEmpty() -> {
+                replaceFragment(SearchSeriesResultFragment.newInstance())
+                v.searchCharacterRadio.isChecked = false
+                v.searchSeriesRadio.isChecked = true
                 d("___","DISPLAY 2 " + query  + " : " + latestSeriesQuery + ": "+  sharedViewModel.searchResultsSeries.size)
             }
             else -> displaySearchResult(query)
@@ -88,7 +88,7 @@ class SearchFragment : Fragment() {
 
         latestQuery = searchQuery
         val toBeDisposed: Disposable
-        if (sharedViewModel.searchForHeroes) {
+        if (sharedViewModel.searchForCharacters) {
             sharedViewModel.searchResultsCharacter.clear()
             latestCharacterQuery = latestQuery
             toBeDisposed =
@@ -103,7 +103,7 @@ class SearchFragment : Fragment() {
                                 replaceFragment(SearchNoResultFragment.newInstance())
                             } else {
                                 sharedViewModel.searchResultsCharacter.addAll(result.data.results)
-                                replaceFragment(SearchResultFragment.newInstance())
+                                replaceFragment(SearchCharacterResultFragment.newInstance())
                             }
                         }
                     }
@@ -122,7 +122,7 @@ class SearchFragment : Fragment() {
                             } else {
                                 d("___", "${result.data}")
                                 sharedViewModel.searchResultsSeries.addAll(result.data.results)
-                                replaceFragment(SeriesSearchResultFragment.newInstance())
+                                replaceFragment(SearchSeriesResultFragment.newInstance())
                             }
 
                         }
@@ -144,7 +144,7 @@ class SearchFragment : Fragment() {
         val view = activity.currentFocus
         if (view != null) {
             val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-            imm!!.hideSoftInputFromWindow(view!!.windowToken, 0)
+            imm!!.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 

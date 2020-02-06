@@ -18,8 +18,6 @@ class FavoriteCharacterItem(val character: FavoriteCharacter) : Item<GroupieView
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
 
-        d("___", "${StitchCon.userData?.characters!!.find { it == character.id }}")
-
         val favoriteButton = viewHolder.itemView.favorite_button
         val favouriteChecked = StitchCon.userData?.characters!!.find {
             val item = it as Document
@@ -56,8 +54,6 @@ class FavoriteCharacterItem(val character: FavoriteCharacter) : Item<GroupieView
                                 .append("thumbnail", character.thumbnail)
                                 .append("name", character.name)
                         )
-                        StitchCon.userData!!.characters.remove(character.id)
-
                     } else {
                         Log.e("___", "Error removing from favourites", it.exception);
                     }
