@@ -9,6 +9,8 @@ import com.example.heroesandbandits.Fragments.FavoritesFragment
 import com.example.heroesandbandits.Fragments.SearchFragment
 import com.example.heroesandbandits.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_search.view.*
 
 
 class SearchActivity : AppCompatActivity() {
@@ -47,8 +49,7 @@ class SearchActivity : AppCompatActivity() {
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_search -> {
-                    val searchFragment =
-                        SearchFragment.newInstance()
+                    val searchFragment = SearchFragment.newInstance()
                     openFragment(searchFragment)
                     return@OnNavigationItemSelectedListener true
                 }

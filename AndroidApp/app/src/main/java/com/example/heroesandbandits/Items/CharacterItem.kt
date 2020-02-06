@@ -75,6 +75,7 @@ class CharacterItem(val character: Character) : Item<GroupieViewHolder>() {
         }
     }
 
+    @SuppressLint("CheckResult")
     private fun getFromApi(id:Int) {
         MarvelRetrofit.marvelService.getOneCharacter(id)
             .subscribeOn(Schedulers.newThread())

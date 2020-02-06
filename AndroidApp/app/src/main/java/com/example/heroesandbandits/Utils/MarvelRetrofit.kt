@@ -12,6 +12,11 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import android.os.AsyncTask.execute
+import android.util.Log.d
+import okhttp3.CacheControl
+import okhttp3.Request
+
 
 val cacheSize = (5 * 1024 * 1024).toLong()
 val myCache = Cache(MyApplication.context.cacheDir, cacheSize)
@@ -46,11 +51,13 @@ object MarvelRetrofit {
         val logging = HttpLoggingInterceptor()
         logging.level =
             if (LOG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-
+        var isCached = false
         val builder = OkHttpClient.Builder().cache(myCache)
+
             .addInterceptor { chain ->
                 val original = chain.request()
                 val originalHttpUrl = original.url()
+
                 val timestamp = "1"
                 val hash = (timestamp + PRIVATE_KEY + PUBLIC_KEY).md5()
                 val url = originalHttpUrl.newBuilder()
@@ -58,27 +65,59 @@ object MarvelRetrofit {
                     .addQueryParameter("ts", timestamp)
                     .addQueryParameter("hash", hash)
                     .build()
+
+
                 val requestBuilder = original.newBuilder()
                     .url(url)
+
                 val request = requestBuilder.build()
+                var counter = 0
+                val iter = myCache.urls()
+                while(iter.hasNext() && !isCached){
+                    val url = iter.next()
+                    if(url == request.url().toString()){
+                        d("___", "${request.url()}")
+                        d("___", "${url}" )
+                        d("___", "${url == request.url().toString()} - ${++counter}")
+                        isCached = true
+                    } else {
+                        d("___","COUNTER: ${++counter}")
+                    }
+                }
+//                myCache.urls().forEach {
+//                    if(it == request.url().toString()){
+//                        d("___", "${request.url().toString()}" )
+//                        d("___", "${it}" )
+//                        d("___", "${it == request.url().toString()} - ")
+//                        isCached = true
+//                        return@forEach
+//                    } else {
+//                        d("___","COUNTER: ${++counter}")
+//                    }
+//                }
                 chain.proceed(request)
             }
-
             .addInterceptor { chain ->
                 var request = chain.request()
-                request = if (hasNetwork(MyApplication.context)!!)
-                    request.newBuilder().header("Cache-Control", "public, max-age=" + 5).build()
-                else {
-                    request.newBuilder()
+                if (isCached){
+                    request = request.newBuilder()
                         .header(
                             "Cache-Control",
-                            "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
+                            "public, max-stale=" + 60 * 60 * 24 * 7
                         )
                         .build()
+                    d("___","CACHE FETCH - €$isCached")
+                }
+                else {
+                    request = request.newBuilder()
+                        .header(
+                            "Cache-Control",
+                            "public, max-age="+ 60 * 60 * 24 * 7)
+                        .build()
+                    d("___","ONLINE FETCH - €$isCached")
                 }
                 chain.proceed(request)
             }
-
             .addInterceptor(logging)
         
         return builder.build()
